@@ -26,6 +26,6 @@ OpenCode TUI. Trust boundaries that matter:
   the resolved target path.
 - **Subprocess sandboxing is Devin's.** The plugin does not add a sandbox of
   its own; Devin's own permission model governs what the agent does.
-- **The public repo is docs-only.** It ships user documentation, not the plugin
-  source, tests, or CI. No real session captures, screenshots, or account data
-  are published here.
+- **The public repo is a filtered mirror.** Test fixtures are scripted or
+  authored — no real session captures, screenshots, or account data ship. The
+  leak gate runs in CI on every export.

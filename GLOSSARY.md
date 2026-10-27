@@ -54,7 +54,10 @@ Failure class. Standard ACP fields are not dialect.
 
 **Failure class** — the closed category an ACP error carries across the
 wire boundary: `auth`, `quota`, `refusal`, `invalid`, `retryable` or
-`unknown`. Decisions read the class, never a vendor error string.
+`unknown`. Decisions read the class, never a vendor error string. The
+tool-result carrier reuses the term off this enum: DSH-17's
+`ForeignToolFacts.failureClass` holds the single literal `capacity` until
+the held DSH-16 lane merges and reconciles one vocabulary.
 
 **Engine** — one Harness's ACP server subprocess (for Devin, `devin acp`)
 plus its JSON-RPC client, as seen through the engine interface in
@@ -612,6 +615,133 @@ commits; a mismatched fingerprint means the facts changed under the
 step and is a visible conflict.
 _Avoid_: "version" (that is the document's `revision`), "checksum"
 alone.
+
+**Authored ACP worker** — a plugin-built child process speaking standard
+ACP over stdio so `src/acp.ts` and the SpawnEngine seam drive it like any
+other Harness engine. It is our artifact line with its own version pin
+and attestation, fault isolation for engine failures, never upstream ACP
+provenance and never a sandbox.
+_Avoid_: "ACP agent" for the wrapper (the worker hosts an engine, it is
+not the vendor's), "sandbox" (tool execution inside still runs with user
+privileges).
+
+**Derived SDK artifact** — the internally labelled build
+`hmoc-freebuff-sdk@0.10.7-upstream.<sha>` of unmodified pinned
+`CodebuffAI/freebuff` source: our build identity recorded as upstream
+commit + `bun.lock` + Bun + bundler versions, never a new upstream
+release and never published under its own name. Its compiled entry
+(`dist/index.mjs`) ships as vendored package data under
+`vendor/freebuff-sdk/`, beside the digest manifest and the loader that
+gates the bytes. The shipped manifest records the identity it actually
+carries — `sourceCommit`, package-relative `sdkDir`, `builtAt`
+(tuple/Bun/build command), `artifacts` sha256 for the shipped entry, and
+`omittedAssets` for audited-but-unshipped ripgrep/wasm digests; the full
+pin tuple (commit + `bun.lock` + Bun/bundler versions) lives in
+`.audit/2026-10-21-freebuff-fb01/build-identity.md`, not in the manifest.
+_Avoid_: `@codebuff/sdk@0.10.7` for the derived build (the npm artifact
+is a different, older tree), "vendored SDK" for bytes that arrive without
+the digest manifest.
+
+**Freebuff lease** — the server-admitted slot identity
+(`freebuff_instance_id`) bound to a catalog row's handle and effort,
+kept by the host-side lease layer (admission, heartbeat, stale-409
+recovery). Distinct from the OpenCode child binding and from the opaque
+SDK `RunState.sessionState`; turn-survival and `/session/reuse` are
+client intent, not proven server guarantees.
+_Avoid_: "session" (three different things carry that word), "slot
+guarantee".
+
+**Freebuff conversation** — the user's billable server-side unit behind a
+**Freebuff lease**: an admitted, time-bound, credit-metered window keyed by
+`freebuff_instance_id`, whose validity is reported by the server
+(`GET /api/v1/freebuff/session`), never by local timers. Ending or letting
+it lapse can forfeit the window and its credits, so it is never silently
+created, rotated or ended. Distinct from the OpenCode **Native child**
+session (our binding), the worker's foreign ACP session id (`fbws-*`) and
+the opaque SDK `RunState.sessionState`.
+_Avoid_: "session", "conversation" for the ACP or host-side objects.
+
+**Catalog key** — the stable logical row id in the live Freebuff model
+catalog (`m-…`): the selectable model id the picker and provider
+projection present. Distinct from the row's `handle`.
+_Avoid_: "model id" alone (the wire never carries the key).
+
+**Catalog handle** — the opaque server-issued model string (`fbm1.…`)
+on a live catalog row, sent on the wire as `AgentDefinition.model` and
+`x-freebuff-model`. Rotation is not established; `fetchId` plus
+`x-freebuff-catalog-protocol` is the staleness anchor and one
+`409 freebuff_catalog_stale` earns one forced refetch plus retry.
+_Avoid_: "rotated token" (structure is unverified), "model name" (it is
+not display text).
+
+**Delegation bridge** — the delegation-only path by which a foreign
+**ACP agent** asks its owning host session for a child: exactly two
+capabilities (`delegate`, `child_status`), one authority seam and one
+fulfillment loop. Not a host-tool export and not **Host-mediated MCP
+access**: nothing host-owned beyond those two capabilities crosses it, and a
+missing capability is a visible refusal, never a silent fall back to vendor
+tools.
+_Avoid_: "bridge" alone (the permission bridge and the hosted routes are
+different things), "MCP bridge" (the deferred optional leg), "tool export".
+
+**Bridge grant** — the frozen authority a bridge request is checked against:
+the verified **Root binding** or **Child binding** (parent session, the
+**Foreign trajectory**'s session, calling Harness and **Role agent**), the
+admissible **Delegation targets** and the binding's expiry. Resolved from the
+binding when the bridge is enabled; a request supplies content only and never
+names, widens or replaces it.
+_Avoid_: "permission" (that is the host's own decision), "allowlist" alone (a
+grant also carries targets, transports and expiry).
+
+**Correlation nonce** — the per-binding opaque value seeded into the foreign
+session and echoed by a bridge request so the host can match the two. It is
+correlation, never authority: possession neither authenticates a caller nor
+widens a grant, and never substitutes for the verified-binding check or the
+host's own permission decision. Rotation re-seeds the **Bridge instruction
+block**.
+_Avoid_: "token", "secret" (both imply a bearer credential), "auth".
+
+**Bridge directive** — the turn-scoped typed text a foreign model emits to
+request one capability (the `delegate`/`child_status` fields plus the nonce).
+Recognised only as a complete terminal block in the owning foreign session's
+current assistant turn of a bridge-enabled binding; the same text in a user
+prompt, quoted code, tool result, reasoning, earlier turn or replay is never a
+directive. This is the `S2` leg; `S1` is a deferred optional leg into the same
+request contract, not a second product.
+_Avoid_: "command" (host commands and foreign slash commands are separate),
+"tool call" (that is the host-side realization).
+
+**Bridge instruction block** — the one-time disclosure seeded into a
+bridge-enabled foreign session: the directive grammar, the two capability
+schemas and the current nonce, as ordinary prompt content reusing the **Role
+instruction block**'s delivery path. Content and correlation only — never a
+tool definition, never a **Role agent** instruction set and never authority.
+_Avoid_: "system prompt" (the Harness owns its own instructions), "tool
+definition" (no host tool is advertised to the Harness).
+
+**Bridge call** — one admitted bridge request realised as a real registered
+host tool call: pending from the moment the driver emits it until its result
+returns, carrying the host's own call identity (`toolCallId`), which alone
+correlates the result arriving on the next host request. The result is
+delivered once, as a prompt on the same foreign session. Every bridge call
+settles exactly once — delivered, cancelled or failed — and a settled call is
+never re-delivered, re-admitted, reset or replaced by a new foreign
+conversation.
+_Avoid_: "foreign tool call" (the foreign Harness keeps its own tool loop),
+"subagent call" (vendor subagents stay foreign), "context reset" (a settled or
+failed call never resets context or buys a replacement).
+
+**Delegation target** — the one selection a bridge request names for its
+work: a foreign **Harness** and its model (including the calling Harness, i.e.
+self-delegation), a named host **Role agent**, or a native provider-model
+reference (**Explicit model selection** with its **Thinking facet**). Matched
+against the grant after the catalog validation the existing selector grammar
+already performs; naming a target never widens the grant, and an unadvertised
+or contradictory model/effort carrier refuses instead of being normalised into
+something selectable.
+_Avoid_: "route" (Harness rank and default routing), "OS target" (the cross-OS
+artifact tuple), "model" alone (a target also carries Harness, agent and
+variant).
 
 ## Hosted Lane
 

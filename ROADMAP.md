@@ -125,7 +125,7 @@ hiển thị khi tích hợp thực sự hỗ trợ.
   sách cho phiên con mới với tùy chọn của phiên hosted hiện tại.
 - Preflight phân biệt bằng chứng tĩnh, bằng chứng khởi tạo engine, trạng thái bị
   chặn và điều chưa biết. Lỗi đã biết dừng trước khi giao tác vụ.
-- Gói npm bao gồm đầy đủ skill, lệnh và hướng dẫn đã cam kết.
+- Hai phương thức cài đặt có cùng skill, lệnh và hướng dẫn đã cam kết.
 - Công việc hosted/delegation bao gồm bắt đầu, tiếp tục, hủy, báo lỗi và hành vi
   cấp quyền được hỗ trợ của từng Harness.
 - Cập nhật giữ cấu hình đã lưu và quyền sở hữu phiên hiện có.

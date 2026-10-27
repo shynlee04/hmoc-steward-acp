@@ -8,7 +8,7 @@ Tài liệu hướng dẫn này giúp bạn đi từ bản cài đặt [OpenCode
 
 ## 1. Kiểm tra điều kiện tiên quyết theo từng Harness
 
-Bạn cần host OpenCode V2 trong khoảng hỗ trợ: `opencode --version` trả về v2.1.2 trở lên trong nhánh v2 (dưới v3) trên `PATH`. Host V1 không thể nạp điểm vào TUI của plugin, và v2.0.x nằm dưới mức hỗ trợ tối thiểu.
+Bạn cần host OpenCode V2 trong khoảng hỗ trợ: `opencode --version` trả về v2.1.4 trở lên trong nhánh v2 (dưới v3) trên `PATH`. Host V1 không thể nạp điểm vào TUI của plugin, và v2.0.x nằm dưới mức hỗ trợ tối thiểu.
 
 Trình cài đặt và luồng thiết lập kiểm tra độc lập từng **Harness**. Bạn có thể chỉ dùng Devin, chỉ dùng Antigravity, hoặc kết hợp cả hai:
 
@@ -26,15 +26,15 @@ Quy tắc phân giải tệp thực thi:
 
 ## 2. Cài đặt hmoc-steward-acp
 
-Tài liệu cho `0.4.0`. Cài nó qua OpenCode. Lệnh này thêm plugin ở phạm vi toàn cục:
+Tài liệu cho `0.4.1`. Cài nó qua OpenCode. Lệnh này thêm plugin ở phạm vi toàn cục:
 
 ```bash
-opencode plugin add hmoc-steward-acp@0.4.0
+opencode plugin add hmoc-steward-acp@0.4.1
 ```
 
-`0.4.0` được xây trên `0.3.0`, bản đã có bản sửa lỗi hỗ trợ OpenCode 2.1.2, bản sửa lỗi bind lần đầu, và delegate Freebuff đã ghim. Các bản phát hành trước đó (`0.2.2`, và `0.2.2-test.5` trên thẻ `testing`) có trước bản sửa 2.1.2 — đừng dùng chúng trên host OpenCode 2.1.2.
+`0.4.1` là bản vá trên `0.4.0`, vốn được xây trên `0.3.0`. `0.3.0` mang bản sửa lỗi hỗ trợ OpenCode 2.1.2, bản sửa lỗi bind lần đầu, và delegate Freebuff đã ghim. Các bản phát hành trước đó (`0.2.2`, và `0.2.2-test.5` trên thẻ `testing`) có trước bản sửa 2.1.2 — đừng dùng chúng trên host OpenCode 2.1.2.
 
-Muốn chỉ dùng trong dự án này, thêm `"hmoc-steward-acp@0.4.0"` vào mảng `plugins` trong `<repo>/opencode.json`. Cấu hình toàn cục nằm tại `~/.config/opencode/opencode.json`. Giữ nguyên plugin và thiết lập khác. Khi nâng cấp, thay mục cũ thay vì thêm bản trùng. Bản cài npm không cần tải mã từ GitHub hay chạy trình cài đặt riêng.
+Muốn chỉ dùng trong dự án này, thêm `"hmoc-steward-acp@0.4.1"` vào mảng `plugins` trong `<repo>/opencode.json`. Cấu hình toàn cục nằm tại `~/.config/opencode/opencode.json`. Giữ nguyên plugin và thiết lập khác. Khi nâng cấp, thay mục cũ thay vì thêm bản trùng. Bản cài npm không cần tải mã từ GitHub hay chạy trình cài đặt riêng.
 
 Hãy khởi động lại OpenCode hoặc mở phiên làm việc mới sau khi cài đặt để host nạp cả plugin máy chủ và các route TUI.
 
@@ -58,12 +58,12 @@ Trong giao diện TUI của OpenCode, chạy `/hivemind-setup` (hoặc chỉ c�
 
 Agent dùng công cụ `question` gốc của OpenCode; bạn chọn. Agent thực hiện thao tác và giải thích từng lựa chọn bằng ngôn ngữ của bạn. Chưa có wizard TUI riêng.
 
-**Định tuyến CodeMode trong `0.4.0`:** agent truy cập `hivemind-setup`, `hivemind-doctor` và `hivemind-hosted` qua bề mặt `execute` của OpenCode, không phải công cụ có tên. Nó tìm bên trong `execute` một cách đồng bộ rồi gọi đúng đường dẫn trả về. Nếu `execute` hoặc một hành động lá bị từ chối, lệnh nêu đúng phạm vi còn thiếu; plugin không bao giờ tự mở rộng quyền. Việc sửa quyền chỉ diễn ra sau khi bạn chọn phạm vi dự án hoặc toàn cục.
+**Định tuyến 0.4.0:** agent truy cập `hivemind-setup` qua bề mặt `execute` của OpenCode, không phải công cụ có tên. Nó tìm bên trong `execute` rồi gọi đúng đường dẫn nhận được. Nếu `execute` hoặc một hành động lá bị từ chối, lệnh nêu đúng phạm vi còn thiếu; plugin không bao giờ tự mở rộng quyền. Việc sửa quyền chỉ diễn ra sau khi bạn chọn phạm vi dự án hoặc toàn cục.
 
 1. **Kiểm tra sức khỏe (`action: "health"`)** — một lượt đọc tĩnh. `ready` nghĩa là thiết lập đã được lưu: agent báo và dừng. `action-required` hoặc `blocked` chỉ ra đúng một cách khắc phục.
 2. **Lựa chọn (`action: "next"` rồi `action: "choose"`)** — bật Harness, đặt thứ hạng, và tùy chọn model slot hoặc giới hạn. Mỗi thao tác ghi được bảo vệ bởi dấu vân tay của bước và số phiên bản tài liệu (`expectedVersion`); câu trả lời cũ bị từ chối và bước được phát lại.
 3. **Hoàn tất (`action: "health"` lần nữa)** — `ready` chỉ xác nhận thiết lập tĩnh, không chứng minh đăng nhập hay hạn mức còn hiệu lực. `config/delegate` là biên nhận đã lưu. Muốn đổi về sau, nêu rõ yêu cầu, ví dụ `/hivemind-setup đổi thứ tự harness`.
-4. **Khắc phục, chỉ khi được chỉ tên** — `hivemind-doctor` check/install/sign-in khi bạn đồng ý tường minh. Kiểm tra engine là hành động của doctor, không phải bước thiết lập: trong `0.4.0`, setup chỉ công bố `health`, `next` và `choose`, còn lượt kiểm tra doctor tự nguyện sẽ lưu `catalog-evidence/<harnessId>` kèm phạm vi.
+4. **Khắc phục, chỉ khi được chỉ tên** — `hivemind-doctor` check/install/sign-in khi bạn đồng ý tường minh. Kiểm tra engine là hành động của doctor, không phải bước thiết lập: 0.4.0 chỉ công bố `health`, `next` và `choose` trên setup, còn lượt kiểm tra doctor tự nguyện sẽ lưu `catalog-evidence/<harnessId>` kèm phạm vi.
 
 Phạm vi: chính sách ủy quyền là toàn cục theo plugin (`config/delegate`). Quyền của host và mục plugin thuộc từng phạm vi — toàn cục (`~/.config/opencode/opencode.json`) hoặc dự án (`<repo>/opencode.json` hay `.opencode/opencode.json`); hãy yêu cầu agent dùng đúng phạm vi bạn muốn. Quy tắc quyền có thứ tự và kết quả khớp cuối cùng thắng; plugin được nạp theo thứ tự mảng, nên mục sau có thể ghi đè mục trước.
 
@@ -92,7 +92,7 @@ Native delegation cho phép agent chính của OpenCode giao việc cho một ph
 - Truyền `background: true` để chạy song song nhiều phiên con độc lập ở chế độ nền, hoặc truyền `sessionID` (`ses_*`) của một phiên con đã tạo để thực hiện **Child continuation** trên cùng hành trình ngoại lai (foreign trajectory) đó.
 - **`devin_session` ACP chuẩn** vẫn còn cho các cuộc hội thoại Devin bền vững, gồm cả đầu vào `cloud` và `agent_type`. Nó không tạo Native child của OpenCode và không tham gia định tuyến `rankOrder`.
 
-Harness delegate thứ ba, **Freebuff** (`freebuff-native`), đi kèm như một lane chỉ-deny cần bật tường minh: tác vụ được giao với `harness: "freebuff"` chạy trong một phiên con native thật trên bản Freebuff SDK đã biên dịch ghim sẵn trong gói, với mọi công cụ đều bị từ chối — không có hiệu ứng công cụ nào. Nó không bao giờ tự bật và không bao giờ nhận suất dự phòng trong thứ hạng; chỉ chủ động bật mới được nhận. Trong `0.4.0`, mỗi lượt Freebuff bắt đầu bằng việc mở một session lease do máy chủ cấp với hạn mức chi tiêu ví theo phiên; hủy lượt chạy chỉ dừng lượt đó chứ không thu hồi cửa sổ phía thượng nguồn. Credential của nó chỉ được gửi tới endpoint HTTPS first-party hoặc loopback — hàng rào từ chối trước khi bất kỳ header Authorization nào được đính kèm. `0.3.0` chỉ phân giải credential từ `CODEBUFF_API_KEY`. `0.4.0` dự định đăng nhập bằng CLI Freebuff native với phương án dự phòng device-key đã đăng ký sẵn; khóa môi trường tường minh vẫn hợp lệ, và đường đi này đang chờ đánh giá an toàn. Lượt chạy thật có quyền vẫn chưa được kiểm chứng: chưa có bằng chứng về prompt có quyền chạy thật hoặc tính phí.
+Harness delegate thứ ba, **Freebuff** (`freebuff-native`), đi kèm như một lane chỉ-deny cần bật tường minh: tác vụ được giao với `harness: "freebuff"` chạy trong một phiên con native thật trên bản Freebuff SDK đã biên dịch ghim sẵn trong gói, với mọi công cụ đều bị từ chối — không có hiệu ứng công cụ nào. Nó không bao giờ tự bật và không bao giờ nhận suất dự phòng trong thứ hạng; chỉ chủ động bật mới được nhận. Trong `0.4.0`, mỗi lượt Freebuff bắt đầu bằng việc mở một session lease do máy chủ cấp với hạn mức chi tiêu ví theo phiên; hủy lượt chạy chỉ dừng lượt đó chứ không thu hồi cửa sổ phía thượng nguồn. Credential của nó chỉ được gửi tới endpoint HTTPS first-party hoặc loopback — hàng rào từ chối trước khi bất kỳ header Authorization nào được đính kèm. `0.3.0` chỉ phân giải credential từ `CODEBUFF_API_KEY`. `0.4.0` dự định đăng nhập bằng CLI Freebuff native với phương án dự phòng device-key đã đăng ký sẵn; khóa môi trường tường minh vẫn hợp lệ, và đường đi này đang chờ đánh giá an toàn. Trạng thái 0.4.1: dịch vụ thượng nguồn từ chối các completion chế độ miễn phí bằng `403 free_mode_cli_required` trên cả dòng catalog miễn phí lẫn trả phí, và điều khoản Freebuff đã công bố giới hạn inference bậc miễn phí cho các client tương tác chính thức. Vì vậy harness Freebuff xuất xưởng ở trạng thái chưa cấu hình/thử nghiệm; lựa chọn headless được hỗ trợ là Codebuff SDK trả phí hoặc BYOK bên trong client chính thức.
 
 ---
 
