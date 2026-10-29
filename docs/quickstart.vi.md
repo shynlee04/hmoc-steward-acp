@@ -8,7 +8,7 @@ Tài liệu hướng dẫn này giúp bạn đi từ bản cài đặt [OpenCode
 
 ## 1. Kiểm tra điều kiện tiên quyết theo từng Harness
 
-Bạn cần host OpenCode V2 trong khoảng hỗ trợ: `opencode --version` trả về v2.1.4 trở lên trong nhánh v2 (dưới v3) trên `PATH`. Host V1 không thể nạp điểm vào TUI của plugin, và v2.0.x nằm dưới mức hỗ trợ tối thiểu. Khoảng hỗ trợ công bố không đổi trong `0.4.2`. Bằng chứng runtime là một phần: một thử nghiệm cô lập có giới hạn đã liên kết client 2.2.1 với máy chủ OpenCode 2.1.4 thật và vượt qua đăng ký plugin, bề mặt session/RPC và TUI, trong khi inference, ủy quyền ACP và hosted attach chưa được kiểm chứng; bằng chứng live đầy đủ trên 2.2.1 vẫn đang chờ.
+Bạn cần host OpenCode V2 trong khoảng hỗ trợ: `opencode --version` trả về v2.1.4 trở lên trong nhánh v2 (dưới v3) trên `PATH`. Host V1 không thể nạp điểm vào TUI của plugin, và v2.0.x nằm dưới mức hỗ trợ tối thiểu. Khoảng hỗ trợ công bố không đổi trong `0.4.2`. Bằng chứng runtime có giới hạn: 6 route ủy quyền gốc (Devin và Antigravity giao việc cho self, harness đối ứng, và executor) đã chạy thành công với các marker đạt trên OpenCode 2.2.1. Thử nghiệm cô lập trước đó cũng xác nhận đăng ký plugin, session/RPC và TUI với server 2.1.4. Hosted attach, rebind sidecar và UAT TUI từ chủ sở hữu vẫn đang chờ; Freebuff phía thượng nguồn tiếp tục bị chặn.
 
 Trình cài đặt và luồng thiết lập kiểm tra độc lập từng **Harness**. Bạn có thể chỉ dùng Devin, chỉ dùng Antigravity, hoặc kết hợp cả hai:
 

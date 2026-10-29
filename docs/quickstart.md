@@ -8,7 +8,7 @@ This tutorial walks you from a clean [OpenCode V2](https://opencode.ai/v2/docs) 
 
 ## 1. Check prerequisites per Harness
 
-You need an OpenCode V2 host in the supported range: `opencode --version` reports v2.1.4 or later within v2 (below v3) on your `PATH`. A V1 host cannot load the plugin's TUI entry point, and v2.0.x is below the supported floor. The declared range is unchanged in `0.4.2`. Runtime evidence is partial: a bounded isolated test linked the 2.2.1 client to a real OpenCode 2.1.4 server and passed plugin registration, session/RPC and TUI surfaces, while inference, ACP delegation and hosted attach are untested; full live proof on 2.2.1 is still pending.
+You need an OpenCode V2 host in the supported range: `opencode --version` reports v2.1.4 or later within v2 (below v3) on your `PATH`. A V1 host cannot load the plugin's TUI entry point, and v2.0.x is below the supported floor. The declared range is unchanged in `0.4.2`. Runtime evidence is bounded: 6 native-delegation routes (Devin and Antigravity each delegating to self, other harness, and executor) were exercised successfully with passing markers on OpenCode 2.2.1. Bounded isolated testing also verified registration, session/RPC, and TUI surfaces against a 2.1.4 server. Hosted attach, sidecar rebind, and owner TUI UAT remain pending; Freebuff upstream remains blocked.
 
 The installer and setup workflow verify each **Harness** independently. You can configure Devin alone, Antigravity alone, or both together:
 

@@ -119,7 +119,7 @@ One static read: `ready`, `action-required`, or `blocked`, plus the single next 
 
 ### Requirements
 
-- **OpenCode V2** (`opencode` v2.1.4 or later within v2, below v3, on PATH). A V1 host cannot load the TUI entry, and v2.0.x or v3 is outside the supported range. The declared range is unchanged in 0.4.2. Runtime evidence is partial: a bounded isolated test linked the 2.2.1 client to a real OpenCode 2.1.4 server and passed plugin registration, session/RPC and TUI surfaces, while inference, ACP delegation and hosted attach are untested; full live proof on 2.2.1 is still pending.
+- **OpenCode V2** (`opencode` v2.1.4 or later within v2, below v3, on PATH). A V1 host cannot load the TUI entry, and v2.0.x or v3 is outside the supported range. The declared range is unchanged in 0.4.2. Runtime evidence is bounded: 6 native-delegation routes (Devin and Antigravity each routing to self, other harness, and executor) exercised successfully with passing markers on OpenCode 2.2.1. Earlier bounded tests also passed registration, session/RPC, and TUI surfaces with a 2.1.4 server. Hosted attach, older inference ACP, sidecar rebind, and human TUI UAT remain pending; Freebuff upstream remains blocked.
 - **Devin:** the `devin` CLI on PATH, or `DEVIN_BIN` pointing at it, signed in with `devin auth login`.
 - **Antigravity:** the official Antigravity ACP server. The plugin can install the pinned build after you approve it, and signs in through ACP `authenticate`.
 
@@ -291,7 +291,7 @@ Một lần đọc tĩnh: `ready`, `action-required`, hoặc `blocked`, kèm đ�
 
 ### Yêu cầu
 
-- **OpenCode V2** (`opencode` từ v2.1.4 trở lên trong nhánh v2, dưới v3, trên PATH). Host V1 không nạp được entry TUI; v2.0.x và v3 nằm ngoài khoảng hỗ trợ. Khoảng hỗ trợ công bố không đổi trong 0.4.2. Bằng chứng runtime là một phần: một thử nghiệm cô lập có giới hạn đã liên kết client 2.2.1 với máy chủ OpenCode 2.1.4 thật và vượt qua đăng ký plugin, bề mặt session/RPC và TUI, trong khi inference, ủy quyền ACP và hosted attach chưa được kiểm chứng; bằng chứng live đầy đủ trên 2.2.1 vẫn đang chờ.
+- **OpenCode V2** (`opencode` từ v2.1.4 trở lên trong nhánh v2, dưới v3, trên PATH). Host V1 không nạp được entry TUI; v2.0.x và v3 nằm ngoài khoảng hỗ trợ. Khoảng hỗ trợ công bố không đổi trong 0.4.2. Bằng chứng runtime có giới hạn: 6 route ủy quyền gốc (Devin và Antigravity giao việc cho self, harness đối ứng, và executor) đã chạy thành công với các marker đạt trên OpenCode 2.2.1. Thử nghiệm cô lập trước đó cũng vượt qua đăng ký plugin, session/RPC và TUI với server 2.1.4. Hosted attach, inference ACP cũ, rebind sidecar và UAT TUI từ chủ sở hữu vẫn đang chờ; Freebuff phía thượng nguồn tiếp tục bị chặn.
 - **Devin:** CLI `devin` trên PATH, hoặc `DEVIN_BIN` trỏ tới nó, đã đăng nhập bằng `devin auth login`.
 - **Antigravity:** ACP server chính thức của Antigravity. Plugin có thể cài bản đã ghim sau khi bạn duyệt, và đăng nhập qua ACP `authenticate`.
 

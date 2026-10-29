@@ -6,13 +6,14 @@ Patch release. No support floor is raised or lowered: the declared range stays
 OpenCode v2.1.4 or later within v2 (below v3), and the OpenTUI peer declaration
 stays `>=0.6.8`. The shipped `@opencode/client` runtime dependency moved to
 2.2.1, and the OpenCode and OpenTUI packages this repo builds and tests against
-moved to 2.2.1 and 0.7.0. This is not a general runtime compatibility claim.
-Runtime evidence is partial and bounded. A bounded isolated test linked the
-2.2.1 client to a real OpenCode 2.1.4 server and passed plugin registration,
-session/RPC and TUI surfaces. Inference, ACP delegation and hosted attach were
-not exercised, full live proof on 2.2.1 is still pending, runtime equivalence
-with the host-bundled plugin and renderer copies is unproven, and the owner's
-TUI UAT remains pending.
+moved to 2.2.1 and 0.7.0. This is not a broad runtime compatibility
+certification. Runtime evidence is bounded: 6 native-delegation routes (Devin
+and Antigravity each delegating to self, other harness, and an executor subagent)
+were exercised with passing markers on an OpenCode 2.2.1 host. Hosted attach,
+multimedia, older inference ACP, sidecar rebind, and the owner's TUI UAT remain
+pending or unproven. An earlier bounded test linked the 2.2.1 client to an
+OpenCode 2.1.4 server across plugin registration, session/RPC and TUI surfaces.
+Freebuff upstream remains blocked (`403 free_mode_cli_required`).
 
 ### Changed
 
