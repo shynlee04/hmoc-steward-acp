@@ -6,17 +6,17 @@
 
 Give your OpenCode agent a colleague. This plugin opens a real Devin or Antigravity session in your TUI when you want to watch, and hands work to one in the background when you do not.
 
-Install `hmoc-steward-acp` 0.4.1, run setup once, then work normally.
+Install `hmoc-steward-acp` 0.4.2, run setup once, then work normally.
 
 ### Install
 
-Documentation for `0.4.1`:
+Documentation for `0.4.2`:
 
 ```bash
-opencode plugin add hmoc-steward-acp@0.4.1
+opencode plugin add hmoc-steward-acp@0.4.2
 ```
 
-`0.4.1` is a patch on `0.4.0`, which builds on `0.3.0`. `0.3.0` carries the OpenCode 2.1.2 support repair, the first-run bind fix, and the pinned Freebuff delegate. Earlier `0.2.x` releases (including `0.2.2` and `0.2.2-test.5` on the `testing` tag) remain installable but predate the 2.1.2 repair — do not use them on an OpenCode 2.1.2 host.
+`0.4.2` is a patch on `0.4.1`, which is a patch on `0.4.0`, which builds on `0.3.0`. `0.3.0` carries the OpenCode 2.1.2 support repair, the first-run bind fix, and the pinned Freebuff delegate. Earlier `0.2.x` releases (including `0.2.2` and `0.2.2-test.5` on the `testing` tag) remain installable but predate the 2.1.2 repair — do not use them on an OpenCode 2.1.2 host.
 
 Reload OpenCode afterwards. The plugin loads on startup, so a running session keeps the old code until you restart.
 
@@ -119,7 +119,7 @@ One static read: `ready`, `action-required`, or `blocked`, plus the single next 
 
 ### Requirements
 
-- **OpenCode V2** (`opencode` v2.1.4 or later within v2, below v3, on PATH). A V1 host cannot load the TUI entry, and v2.0.x or v3 is outside the supported range.
+- **OpenCode V2** (`opencode` v2.1.4 or later within v2, below v3, on PATH). A V1 host cannot load the TUI entry, and v2.0.x or v3 is outside the supported range. The declared range is unchanged in 0.4.2. Runtime evidence is partial: a bounded isolated test linked the 2.2.1 client to a real OpenCode 2.1.4 server and passed plugin registration, session/RPC and TUI surfaces, while inference, ACP delegation and hosted attach are untested; full live proof on 2.2.1 is still pending.
 - **Devin:** the `devin` CLI on PATH, or `DEVIN_BIN` pointing at it, signed in with `devin auth login`.
 - **Antigravity:** the official Antigravity ACP server. The plugin can install the pinned build after you approve it, and signs in through ACP `authenticate`.
 
@@ -178,17 +178,17 @@ Referral links and donations never affect what the plugin does. Referral sign-up
 
 Cho agent OpenCode của bạn một đồng nghiệp. Plugin mở phiên Devin hoặc Antigravity thật ngay trong TUI khi bạn muốn xem, và giao việc chạy nền khi bạn không ngồi đó.
 
-Cài `hmoc-steward-acp` 0.4.1, chạy thiết lập một lần, rồi làm việc bình thường.
+Cài `hmoc-steward-acp` 0.4.2, chạy thiết lập một lần, rồi làm việc bình thường.
 
 ### Cài đặt
 
-Tài liệu cho `0.4.1`:
+Tài liệu cho `0.4.2`:
 
 ```bash
-opencode plugin add hmoc-steward-acp@0.4.1
+opencode plugin add hmoc-steward-acp@0.4.2
 ```
 
-`0.4.1` là bản vá trên `0.4.0`, vốn được xây trên `0.3.0`. `0.3.0` mang bản sửa lỗi hỗ trợ OpenCode 2.1.2, bản sửa lỗi bind lần đầu, và delegate Freebuff đã ghim. Các bản `0.2.x` trước đó (gồm `0.2.2` và `0.2.2-test.5` trên thẻ `testing`) vẫn cài được nhưng có trước bản sửa 2.1.2 — đừng dùng chúng trên host OpenCode 2.1.2.
+`0.4.2` là bản vá trên `0.4.1`, vốn là bản vá trên `0.4.0`, vốn được xây trên `0.3.0`. `0.3.0` mang bản sửa lỗi hỗ trợ OpenCode 2.1.2, bản sửa lỗi bind lần đầu, và delegate Freebuff đã ghim. Các bản `0.2.x` trước đó (gồm `0.2.2` và `0.2.2-test.5` trên thẻ `testing`) vẫn cài được nhưng có trước bản sửa 2.1.2 — đừng dùng chúng trên host OpenCode 2.1.2.
 
 Sau đó nạp lại OpenCode. Plugin chỉ nạp lúc khởi động, nên phiên đang chạy vẫn giữ code cũ cho tới khi bạn khởi động lại.
 
@@ -291,7 +291,7 @@ Một lần đọc tĩnh: `ready`, `action-required`, hoặc `blocked`, kèm đ�
 
 ### Yêu cầu
 
-- **OpenCode V2** (`opencode` từ v2.1.4 trở lên trong nhánh v2, dưới v3, trên PATH). Host V1 không nạp được entry TUI; v2.0.x và v3 nằm ngoài khoảng hỗ trợ.
+- **OpenCode V2** (`opencode` từ v2.1.4 trở lên trong nhánh v2, dưới v3, trên PATH). Host V1 không nạp được entry TUI; v2.0.x và v3 nằm ngoài khoảng hỗ trợ. Khoảng hỗ trợ công bố không đổi trong 0.4.2. Bằng chứng runtime là một phần: một thử nghiệm cô lập có giới hạn đã liên kết client 2.2.1 với máy chủ OpenCode 2.1.4 thật và vượt qua đăng ký plugin, bề mặt session/RPC và TUI, trong khi inference, ủy quyền ACP và hosted attach chưa được kiểm chứng; bằng chứng live đầy đủ trên 2.2.1 vẫn đang chờ.
 - **Devin:** CLI `devin` trên PATH, hoặc `DEVIN_BIN` trỏ tới nó, đã đăng nhập bằng `devin auth login`.
 - **Antigravity:** ACP server chính thức của Antigravity. Plugin có thể cài bản đã ghim sau khi bạn duyệt, và đăng nhập qua ACP `authenticate`.
 

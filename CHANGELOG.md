@@ -1,5 +1,70 @@
 # Changelog
 
+## 0.4.2 — 2026-10-29
+
+Patch release. No support floor is raised or lowered: the declared range stays
+OpenCode v2.1.4 or later within v2 (below v3), and the OpenTUI peer declaration
+stays `>=0.6.8`. The shipped `@opencode/client` runtime dependency moved to
+2.2.1, and the OpenCode and OpenTUI packages this repo builds and tests against
+moved to 2.2.1 and 0.7.0. This is not a general runtime compatibility claim.
+Runtime evidence is partial and bounded. A bounded isolated test linked the
+2.2.1 client to a real OpenCode 2.1.4 server and passed plugin registration,
+session/RPC and TUI surfaces. Inference, ACP delegation and hosted attach were
+not exercised, full live proof on 2.2.1 is still pending, runtime equivalence
+with the host-bundled plugin and renderer copies is unproven, and the owner's
+TUI UAT remains pending.
+
+### Changed
+
+- The shipped runtime dependency `@opencode/client` moved from 2.1.4 to
+  2.2.1. Development pins moved to `@opencode/plugin` 2.2.1, `@opencode/theme`
+  2.2.1, `@opentui/core` 0.7.0, `@opentui/solid` 0.7.0, and the
+  `@opentui/core` theme override to 0.7.0. Peer declarations and the declared
+  support range are unchanged.
+- Declaration checks: the plugin TUI declaration file is byte-identical
+  between 2.1.4 and 2.2.1, and the `@opentui/solid` `index.d.ts` /
+  `components.d.ts` plus `@opentui/core` `index.d.ts` / `syntax-style.d.ts`
+  are byte-identical between 0.6.8 and 0.7.0. The Promise plugin/client
+  declarations gained members additively. `@opencode/theme/tui` gained the
+  `migrateV1NewDesigns` export; no broader theme equivalence was checked.
+  OpenTUI core 0.7.0 also moves native ABI, renderable, scroll-chain and
+  stdin-parser declarations; only the surfaces the root suite covers were
+  exercised, and the rest remain unverified.
+
+### Fixed
+
+- A fresh native delegation on an OpenCode 2.2.1 host is no longer refused as
+  restricted by the host's own browser-availability marker. 2.2.1 appends an
+  ordered `{browser:* deny}` + `{skill:"browser" deny}` pair to every agent
+  until a desktop browser attaches, while 2.1.4 and earlier append the browser
+  rule alone. OpenCode runs its config plugin before the browser plugin and no
+  later internal plugin mutates `permissions`, so real operator configuration
+  is appended before the availability signature and always keeps its intent.
+  The tag is positional and tries the untagged ordered pair first, then an
+  untagged trailing `{browser:* deny}` alone. A paired tail tags both rules. A
+  reordered two-rule tail still tags only its trailing browser rule, leaving the
+  earlier `skill` deny as role or operator intent, so a genuine skill
+  restriction still refuses. A rule whose provenance the caller already
+  supplied is never retagged, and a pre-tagged rule in a candidate suffix
+  prevents that signature from matching. The merge receives raw arrays with no
+  provenance bit, so an arbitrary untransformed caller array whose tail matches
+  the signature is ambiguous and is read as availability. Previously, with the
+  2.2.1 pair, neither rule was tagged, both read as intent, the `browser` and
+  `skill` classes had no coverage channel, and admission refused before any
+  `session/prompt`.
+- Seeding a fresh trajectory no longer fails because a session's durable
+  history carries rows this plugin does not author. The durable listing
+  projection knew only the two synthetic carriers this plugin writes, so an
+  instruction-file load, a steer/plan-mode/background/restart notice, a shell
+  completion row, a failed compaction barrier, a prompt file/skill/agent
+  sidecar or a background shell paused every later seed with "the durable
+  transcript could not be verified". The projection now mirrors the host's own
+  lowering, including per-mime sidecar decoding and host notices under their
+  durable id, and scopes corruption to the visible post-barrier window.
+  Binary attachments and genuinely malformed or unknown rows still fail closed.
+- The packaged `bin/hmoc-steward-acp.mjs` ships executable mode 0755; earlier
+  tarballs carried 0644.
+
 ## 0.4.1 — 2026-10-27
 
 Patch release. Live receipts on the development host cover the six non-paid

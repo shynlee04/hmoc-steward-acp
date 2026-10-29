@@ -398,10 +398,19 @@ hosted Lane card).
 
 **Host-tool availability** — whether the OpenCode host exposes a local
 host-owned tool surface in the current session (such as `@opencode/plugin-browser`
-appending a post-config trailing `browser:* deny` to every agent until a desktop
-browser attaches and adds a session-level `browser:* allow`), distinct from
+appending, after config and unconditionally, an ordered trailing `browser:* deny`
+then `skill:browser deny` pair to every agent on v2.2.1 — the `browser:* deny`
+rule alone through v2.1.4 — while a desktop browser attachment appends the
+matching session-level allows (`browser:*`, plus `skill:browser` on v2.2.1)
+after those denies without removing the agent-level signature; the session
+allows are removed when the attachment releases), distinct from
 **Effective permission intent** and **Foreign coverage channel** because local
 tool unavailability hides a host tool without forbidding foreign agent work.
+The host attaches no provenance field; `host-availability` is a local tag on the
+exact ordered untagged trailing signature. For an untransformed caller array, an
+identical final suffix is indistinguishable from the host append; the host
+post-config pipeline places configured operator rules earlier, so real operator
+config does not occupy those final slots.
 _Avoid_: "foreign deny", "role restriction" (hiding an unattached local host
 tool is not a user prohibition on foreign operations).
 

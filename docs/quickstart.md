@@ -8,7 +8,7 @@ This tutorial walks you from a clean [OpenCode V2](https://opencode.ai/v2/docs) 
 
 ## 1. Check prerequisites per Harness
 
-You need an OpenCode V2 host in the supported range: `opencode --version` reports v2.1.4 or later within v2 (below v3) on your `PATH`. A V1 host cannot load the plugin's TUI entry point, and v2.0.x is below the supported floor.
+You need an OpenCode V2 host in the supported range: `opencode --version` reports v2.1.4 or later within v2 (below v3) on your `PATH`. A V1 host cannot load the plugin's TUI entry point, and v2.0.x is below the supported floor. The declared range is unchanged in `0.4.2`. Runtime evidence is partial: a bounded isolated test linked the 2.2.1 client to a real OpenCode 2.1.4 server and passed plugin registration, session/RPC and TUI surfaces, while inference, ACP delegation and hosted attach are untested; full live proof on 2.2.1 is still pending.
 
 The installer and setup workflow verify each **Harness** independently. You can configure Devin alone, Antigravity alone, or both together:
 
@@ -26,15 +26,15 @@ Key rules for executable resolution:
 
 ## 2. Install hmoc-steward-acp
 
-Documentation for `0.4.1`. Install it through OpenCode. This command adds it globally:
+Documentation for `0.4.2`. Install it through OpenCode. This command adds it globally:
 
 ```bash
-opencode plugin add hmoc-steward-acp@0.4.1
+opencode plugin add hmoc-steward-acp@0.4.2
 ```
 
-`0.4.1` is a patch on `0.4.0`, which builds on `0.3.0`. `0.3.0` carries the OpenCode 2.1.2 support repair, the first-run bind fix, and the pinned Freebuff delegate. Earlier releases (`0.2.2`, and `0.2.2-test.5` on the `testing` tag) predate the 2.1.2 repair — do not use them on an OpenCode 2.1.2 host.
+`0.4.2` is a patch on `0.4.1`, which is a patch on `0.4.0`, which builds on `0.3.0`. `0.3.0` carries the OpenCode 2.1.2 support repair, the first-run bind fix, and the pinned Freebuff delegate. Earlier releases (`0.2.2`, and `0.2.2-test.5` on the `testing` tag) predate the 2.1.2 repair — do not use them on an OpenCode 2.1.2 host.
 
-For project-only installation, add `"hmoc-steward-acp@0.4.1"` to `plugins` in `<repo>/opencode.json` instead. Global configuration lives at `~/.config/opencode/opencode.json`. Preserve other plugins and settings. Replace the old entry when upgrading; do not add a duplicate. The npm install needs no GitHub checkout or separate package installer.
+For project-only installation, add `"hmoc-steward-acp@0.4.2"` to `plugins` in `<repo>/opencode.json` instead. Global configuration lives at `~/.config/opencode/opencode.json`. Preserve other plugins and settings. Replace the old entry when upgrading; do not add a duplicate. The npm install needs no GitHub checkout or separate package installer.
 
 Restart OpenCode or open a new session after installation so the host loads both the server plugin and the TUI routes.
 

@@ -8,7 +8,7 @@ Tài liệu hướng dẫn này giúp bạn đi từ bản cài đặt [OpenCode
 
 ## 1. Kiểm tra điều kiện tiên quyết theo từng Harness
 
-Bạn cần host OpenCode V2 trong khoảng hỗ trợ: `opencode --version` trả về v2.1.4 trở lên trong nhánh v2 (dưới v3) trên `PATH`. Host V1 không thể nạp điểm vào TUI của plugin, và v2.0.x nằm dưới mức hỗ trợ tối thiểu.
+Bạn cần host OpenCode V2 trong khoảng hỗ trợ: `opencode --version` trả về v2.1.4 trở lên trong nhánh v2 (dưới v3) trên `PATH`. Host V1 không thể nạp điểm vào TUI của plugin, và v2.0.x nằm dưới mức hỗ trợ tối thiểu. Khoảng hỗ trợ công bố không đổi trong `0.4.2`. Bằng chứng runtime là một phần: một thử nghiệm cô lập có giới hạn đã liên kết client 2.2.1 với máy chủ OpenCode 2.1.4 thật và vượt qua đăng ký plugin, bề mặt session/RPC và TUI, trong khi inference, ủy quyền ACP và hosted attach chưa được kiểm chứng; bằng chứng live đầy đủ trên 2.2.1 vẫn đang chờ.
 
 Trình cài đặt và luồng thiết lập kiểm tra độc lập từng **Harness**. Bạn có thể chỉ dùng Devin, chỉ dùng Antigravity, hoặc kết hợp cả hai:
 
@@ -26,15 +26,15 @@ Quy tắc phân giải tệp thực thi:
 
 ## 2. Cài đặt hmoc-steward-acp
 
-Tài liệu cho `0.4.1`. Cài nó qua OpenCode. Lệnh này thêm plugin ở phạm vi toàn cục:
+Tài liệu cho `0.4.2`. Cài nó qua OpenCode. Lệnh này thêm plugin ở phạm vi toàn cục:
 
 ```bash
-opencode plugin add hmoc-steward-acp@0.4.1
+opencode plugin add hmoc-steward-acp@0.4.2
 ```
 
-`0.4.1` là bản vá trên `0.4.0`, vốn được xây trên `0.3.0`. `0.3.0` mang bản sửa lỗi hỗ trợ OpenCode 2.1.2, bản sửa lỗi bind lần đầu, và delegate Freebuff đã ghim. Các bản phát hành trước đó (`0.2.2`, và `0.2.2-test.5` trên thẻ `testing`) có trước bản sửa 2.1.2 — đừng dùng chúng trên host OpenCode 2.1.2.
+`0.4.2` là bản vá trên `0.4.1`, vốn là bản vá trên `0.4.0`, vốn được xây trên `0.3.0`. `0.3.0` mang bản sửa lỗi hỗ trợ OpenCode 2.1.2, bản sửa lỗi bind lần đầu, và delegate Freebuff đã ghim. Các bản phát hành trước đó (`0.2.2`, và `0.2.2-test.5` trên thẻ `testing`) có trước bản sửa 2.1.2 — đừng dùng chúng trên host OpenCode 2.1.2.
 
-Muốn chỉ dùng trong dự án này, thêm `"hmoc-steward-acp@0.4.1"` vào mảng `plugins` trong `<repo>/opencode.json`. Cấu hình toàn cục nằm tại `~/.config/opencode/opencode.json`. Giữ nguyên plugin và thiết lập khác. Khi nâng cấp, thay mục cũ thay vì thêm bản trùng. Bản cài npm không cần tải mã từ GitHub hay chạy trình cài đặt riêng.
+Muốn chỉ dùng trong dự án này, thêm `"hmoc-steward-acp@0.4.2"` vào mảng `plugins` trong `<repo>/opencode.json`. Cấu hình toàn cục nằm tại `~/.config/opencode/opencode.json`. Giữ nguyên plugin và thiết lập khác. Khi nâng cấp, thay mục cũ thay vì thêm bản trùng. Bản cài npm không cần tải mã từ GitHub hay chạy trình cài đặt riêng.
 
 Hãy khởi động lại OpenCode hoặc mở phiên làm việc mới sau khi cài đặt để host nạp cả plugin máy chủ và các route TUI.
 
