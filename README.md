@@ -6,17 +6,17 @@
 
 Give your OpenCode agent a colleague. This plugin opens a real Devin or Antigravity session in your TUI when you want to watch, and hands work to one in the background when you do not.
 
-Install `hmoc-steward-acp` 0.5.0, run setup once, then work normally.
+Install `hmoc-steward-acp` 0.6.0, run setup once, then work normally.
 
 ### Install
 
-Documentation for `0.5.0`:
+Documentation for `0.6.0`:
 
 ```bash
-opencode plugin add hmoc-steward-acp@0.5.0
+opencode plugin add hmoc-steward-acp@0.6.0
 ```
 
-`0.5.0` is a minor on `0.4.2`, a patch on `0.4.1`, which is a patch on `0.4.0`, which builds on `0.3.0`. `0.3.0` carries the OpenCode 2.1.2 support repair, the first-run bind fix, and the pinned Freebuff delegate. Earlier `0.2.x` releases (including `0.2.2` and `0.2.2-test.5` on the `testing` tag) remain installable but predate the 2.1.2 repair — do not use them on an OpenCode 2.1.2 host.
+`0.6.0` is a minor on `0.5.0` that adds the opt-in Cursor harness; `0.5.0` is a minor on `0.4.2`, a patch on `0.4.1`, which is a patch on `0.4.0`, which builds on `0.3.0`. `0.3.0` carries the OpenCode 2.1.2 support repair, the first-run bind fix, and the pinned Freebuff delegate. Earlier `0.2.x` releases (including `0.2.2` and `0.2.2-test.5` on the `testing` tag) remain installable but predate the 2.1.2 repair — do not use them on an OpenCode 2.1.2 host.
 
 Project-only install: add the package to the `plugins` array of that project's `opencode.json` and skip the global command.
 
@@ -54,6 +54,8 @@ Sessions, history and permissions stay in the foreign agent's own world. This pl
 A third delegate Harness, **Freebuff** (`freebuff-native`), ships as an opt-in deny-only lane: a task delegated to it runs inside a genuine native child session on the compiled pinned-source Freebuff SDK bundled in the package, with every tool denied — zero tool effects. It never auto-enables and never takes the rank fallback; an explicit owner opt-in — enabling it in the `config/delegate` document, or selecting `harness: "freebuff"` — is the only admission. It is delegation-only: no `/freebuff` hosted view and no full coding executor. In 0.4.0, each Freebuff run starts by opening a server-issued session lease with a session-scoped wallet spend limit; cancelling a turn stops the turn but does not revoke that upstream window. Its credential may egress only to a first-party HTTPS endpoint or loopback — the fence refuses before any Authorization header otherwise. `0.3.0` resolved the credential from `CODEBUFF_API_KEY` alone. `0.4.0` intends native Freebuff CLI login with an existing registered device-key fallback; an explicit environment key remains valid, and that path is safety-review pending. 0.4.1 status: the upstream service refuses free-mode completions with `403 free_mode_cli_required` on both free and paid catalog rows, and the published Freebuff terms restrict free-tier inference to the official interactive clients. The Freebuff harness therefore ships unconfigured/experimental; supported headless alternatives are the paid Codebuff SDK or BYOK inside the official client.
 
 A fourth delegate Harness, **Claude** (`claude-native`), ships as a default-off preview lane: it drives the pinned `@agentclientprotocol/claude-agent-acp` 0.99.1 adapter (Claude Agent SDK 0.3.312, bundled Claude Code 2.1.312); authentication work in this integration is account-OAuth only, and API-key/API-billing authentication is outside scope. Verified evidence is limited to an `initialize` handshake and an empty-session catalog on the default model; task execution, config writes, account eligibility and human UAT are unverified. The free Claude App admission route is not established and remains BLOCKED, and no paid or API-key substitution is offered. Treat it as a preview, not a supported harness.
+
+A fifth delegate Harness, **Cursor** (`cursor-native`), ships opt-in: it drives your installed `cursor-agent acp` (sign in with `cursor-agent login`; the plugin never installs Cursor or reads its credentials) for native delegation, as a main-session model provider, and as a hosted Cursor view. It stays off until you enable `harnesses.cursor.enabled` or select `harness: "cursor"`, and it never takes a fallback slot. Models are the signed-in account's live catalog, verbatim — including `default[]` (Auto). Cursor has no separate thinking control, so a thinking setting or `#variant` for Cursor is refused by name. Shell commands ask through OpenCode's permission prompt; Cursor applies file edits itself without asking, so agent roles that restrict tools are refused before Cursor starts. Verified on macOS arm64 with Cursor `2026.11.05-86047df`; other platforms and owner UAT are pending.
 
 ### Project options
 
@@ -169,17 +171,17 @@ Referral links and donations never affect what the plugin does. Referral sign-up
 
 Cho agent OpenCode của bạn một đồng nghiệp. Plugin mở phiên Devin hoặc Antigravity thật ngay trong TUI khi bạn muốn xem, và giao việc chạy nền khi bạn không ngồi đó.
 
-Cài `hmoc-steward-acp` 0.5.0, chạy thiết lập một lần, rồi làm việc bình thường.
+Cài `hmoc-steward-acp` 0.6.0, chạy thiết lập một lần, rồi làm việc bình thường.
 
 ### Cài đặt
 
-Tài liệu cho `0.5.0`:
+Tài liệu cho `0.6.0`:
 
 ```bash
-opencode plugin add hmoc-steward-acp@0.5.0
+opencode plugin add hmoc-steward-acp@0.6.0
 ```
 
-`0.5.0` là bản minor trên `0.4.2` — một bản vá trên `0.4.1`, vốn là bản vá trên `0.4.0`, vốn được xây trên `0.3.0`. `0.3.0` mang bản sửa lỗi hỗ trợ OpenCode 2.1.2, bản sửa lỗi bind lần đầu, và delegate Freebuff đã ghim. Các bản `0.2.x` trước đó (gồm `0.2.2` và `0.2.2-test.5` trên thẻ `testing`) vẫn cài được nhưng có trước bản sửa 2.1.2 — đừng dùng chúng trên host OpenCode 2.1.2.
+`0.6.0` là bản minor trên `0.5.0`, bổ sung harness Cursor cần bật tường minh; `0.5.0` là bản minor trên `0.4.2` — một bản vá trên `0.4.1`, vốn là bản vá trên `0.4.0`, vốn được xây trên `0.3.0`. `0.3.0` mang bản sửa lỗi hỗ trợ OpenCode 2.1.2, bản sửa lỗi bind lần đầu, và delegate Freebuff đã ghim. Các bản `0.2.x` trước đó (gồm `0.2.2` và `0.2.2-test.5` trên thẻ `testing`) vẫn cài được nhưng có trước bản sửa 2.1.2 — đừng dùng chúng trên host OpenCode 2.1.2.
 
 Chỉ dùng trong một dự án: thêm gói vào mảng `plugins` trong `opencode.json` của dự án đó, bỏ qua lệnh cài toàn cục.
 
@@ -217,6 +219,8 @@ Phiên, lịch sử và quyền nằm trong thế giới của agent gốc. Plug
 Harness delegate thứ ba, **Freebuff** (`freebuff-native`), đi kèm như một lane chỉ-deny cần bật tường minh: tác vụ được giao cho nó chạy trong một phiên con native thật trên bản Freebuff SDK đã biên dịch ghim sẵn trong gói, với mọi công cụ đều bị từ chối — không có hiệu ứng công cụ nào. Nó không bao giờ tự bật và không bao giờ nhận suất dự phòng trong thứ hạng; chỉ chủ động bật — trong tài liệu `config/delegate` hoặc chọn `harness: "freebuff"` — mới được nhận. Nó chỉ dùng để ủy quyền: không có Hosted View `/freebuff` và không phải executor lập trình đầy đủ. Trong `0.4.0`, mỗi lượt Freebuff bắt đầu bằng việc mở một session lease do máy chủ cấp với hạn mức chi tiêu ví theo phiên; hủy lượt chạy chỉ dừng lượt đó chứ không thu hồi cửa sổ phía thượng nguồn. Credential của nó chỉ được gửi tới endpoint HTTPS first-party hoặc loopback — hàng rào từ chối trước khi bất kỳ header Authorization nào được đính kèm. `0.3.0` chỉ phân giải credential từ `CODEBUFF_API_KEY`. `0.4.0` dự định đăng nhập bằng CLI Freebuff native với phương án dự phòng device-key đã đăng ký sẵn; khóa môi trường tường minh vẫn hợp lệ, và đường đi này đang chờ đánh giá an toàn. Trạng thái 0.4.1: dịch vụ thượng nguồn từ chối các completion chế độ miễn phí bằng `403 free_mode_cli_required` trên cả dòng catalog miễn phí lẫn trả phí, và điều khoản Freebuff đã công bố giới hạn inference bậc miễn phí cho các client tương tác chính thức. Vì vậy harness Freebuff xuất xưởng ở trạng thái chưa cấu hình/thử nghiệm; lựa chọn headless được hỗ trợ là Codebuff SDK trả phí hoặc BYOK bên trong client chính thức.
 
 Harness delegate thứ tư, **Claude** (`claude-native`), đi kèm như một lane preview mặc-định-tắt: chạy trên adapter ghim `@agentclientprotocol/claude-agent-acp` 0.99.1 (Claude Agent SDK 0.3.312, Claude Code 2.1.312 bundled); xác thực trong tích hợp này chỉ qua OAuth tài khoản, và xác thực API-key/API-billing nằm ngoài phạm vi. Bằng chứng đã kiểm chứng giới hạn ở handshake `initialize` và catalog của một phiên rỗng trên model mặc định; chạy task, ghi config, điều kiện tài khoản và UAT của chủ sở hữu vẫn chưa được kiểm chứng. Đường dùng Claude App miễn phí chưa được thiết lập và vẫn BỊ CHẶN, và không có phương án thay thế trả phí hay API-key. Hãy coi nó là preview, chưa phải harness được hỗ trợ.
+
+Harness delegate thứ năm, **Cursor** (`cursor-native`), cần bật tường minh: nó chạy `cursor-agent acp` bạn đã cài (đăng nhập bằng `cursor-agent login`; plugin không bao giờ cài Cursor hay đọc credential của nó) cho ủy quyền native, làm provider model cho phiên chính, và làm Hosted View Cursor. Nó tắt cho đến khi bạn bật `harnesses.cursor.enabled` hoặc chọn `harness: "cursor"`, và không bao giờ nhận suất dự phòng. Danh sách model lấy nguyên văn từ catalog trực tiếp của tài khoản đã đăng nhập — gồm cả `default[]` (Auto). Cursor không có điều khiển thinking riêng, nên thiết lập thinking hoặc `#variant` cho Cursor sẽ bị từ chối kèm tên. Lệnh shell hỏi qua lời nhắc quyền của OpenCode; Cursor tự áp dụng chỉnh sửa file mà không hỏi, nên các agent role giới hạn công cụ sẽ bị từ chối trước khi Cursor khởi động. Đã kiểm chứng trên macOS arm64 với Cursor `2026.11.05-86047df`; các nền tảng khác và UAT của chủ sở hữu vẫn đang chờ.
 
 ### Tuỳ chọn theo dự án
 

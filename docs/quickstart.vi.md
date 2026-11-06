@@ -26,15 +26,15 @@ Quy tắc phân giải tệp thực thi:
 
 ## 2. Cài đặt hmoc-steward-acp
 
-Tài liệu cho `0.5.0`. Cài nó qua OpenCode. Lệnh này thêm plugin ở phạm vi toàn cục:
+Tài liệu cho `0.6.0`. Cài nó qua OpenCode. Lệnh này thêm plugin ở phạm vi toàn cục:
 
 ```bash
-opencode plugin add hmoc-steward-acp@0.5.0
+opencode plugin add hmoc-steward-acp@0.6.0
 ```
 
-`0.5.0` là bản minor trên `0.4.2` — một bản vá trên `0.4.1`, vốn là bản vá trên `0.4.0`, vốn được xây trên `0.3.0`. `0.3.0` mang bản sửa lỗi hỗ trợ OpenCode 2.1.2, bản sửa lỗi bind lần đầu, và delegate Freebuff đã ghim. Các bản phát hành trước đó (`0.2.2`, và `0.2.2-test.5` trên thẻ `testing`) có trước bản sửa 2.1.2 — đừng dùng chúng trên host OpenCode 2.1.2.
+`0.6.0` là bản minor trên `0.5.0`, bổ sung harness Cursor cần bật tường minh; `0.5.0` là bản minor trên `0.4.2` — một bản vá trên `0.4.1`, vốn là bản vá trên `0.4.0`, vốn được xây trên `0.3.0`. `0.3.0` mang bản sửa lỗi hỗ trợ OpenCode 2.1.2, bản sửa lỗi bind lần đầu, và delegate Freebuff đã ghim. Các bản phát hành trước đó (`0.2.2`, và `0.2.2-test.5` trên thẻ `testing`) có trước bản sửa 2.1.2 — đừng dùng chúng trên host OpenCode 2.1.2.
 
-Muốn chỉ dùng trong dự án này, thêm `"hmoc-steward-acp@0.5.0"` vào mảng `plugins` trong `<repo>/opencode.json`. Cấu hình toàn cục nằm tại `~/.config/opencode/opencode.json`. Giữ nguyên plugin và thiết lập khác. Khi nâng cấp, thay mục cũ thay vì thêm bản trùng. Bản cài npm không cần tải mã từ GitHub hay chạy trình cài đặt riêng.
+Muốn chỉ dùng trong dự án này, thêm `"hmoc-steward-acp@0.6.0"` vào mảng `plugins` trong `<repo>/opencode.json`. Cấu hình toàn cục nằm tại `~/.config/opencode/opencode.json`. Giữ nguyên plugin và thiết lập khác. Khi nâng cấp, thay mục cũ thay vì thêm bản trùng. Bản cài npm không cần tải mã từ GitHub hay chạy trình cài đặt riêng.
 
 ---
 

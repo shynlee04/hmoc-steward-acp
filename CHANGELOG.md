@@ -1,5 +1,59 @@
 # Changelog
 
+## 0.6.0 — 2026-11-06
+
+Minor release adding a fifth delegate Harness, **Cursor**, opt-in only.
+Publication is bound to the release receipt and is not claimed here;
+registry readback and human TUI acceptance remain pending. No dependency
+moved beyond version metadata. The development baseline is unchanged:
+OpenCode 2.2.5, agy CLI 1.4.12, Devin CLI 3000.11.234.
+
+### Added
+
+- **Cursor** (`cursor-native`, REQ-CUR-01..11): native delegation and
+  main-session provider over the installed `cursor-agent acp`, plus a
+  hosted Cursor view. Both stay off until `harnesses.cursor.enabled` is
+  set or `harness: "cursor"` is selected; Cursor never takes a fallback
+  slot. Sign-in is the official `cursor-agent login`; the plugin never
+  installs Cursor and never reads Cursor credentials.
+  - Models come verbatim from the signed-in account's live catalog
+    (47 ids observed on 2026-11-06, including `default[]`, Cursor's
+    Auto). Cursor exposes no separate thinking control — reasoning is
+    fixed inside each model id — so a configured `cursor_thinking` or a
+    `#variant` is refused by name instead of guessed.
+  - Delegated work runs in Cursor's `agent` mode; `plan` and `ask` stay
+    selectable. Shell commands ask through OpenCode's permission prompt
+    and the plugin never answers "allow always". Cursor applies file
+    edits itself without a permission request, so an agent role that
+    restricts any action class is refused before Cursor starts.
+  - Sessions are listed for the current workspace only; continuation
+    reloads the real Cursor session. `resume`, `close` and `fork` are
+    not offered by Cursor and are refused by name.
+- `hivemind-doctor` session checks now report a signed-out harness as
+  `blocked` / `signed-out` with that harness's own sign-in action
+  (`devin auth login`, the Claude adapter's `--cli` login,
+  `cursor-agent login`) instead of a generic probe failure.
+
+### Changed
+
+- Engine boundaries are declared as Harness Profile data; the shared
+  workspace-scoped `session/list` boundary now serves Claude and Cursor.
+  Claude's behavior and refusal text are unchanged.
+
+### Evidence and limits
+
+- Raw ACP turns on darwin-arm64, 2026-11-06: Cursor `2026.11.05-86047df`
+  and the Antigravity ACP server `1.4.3` passed reply, file edit, shell
+  command with permission, mid-turn cancel, workspace-scoped list,
+  `session/load` replay and continuation. On the same machine the Devin
+  CLI, the Claude adapter and Freebuff were signed out, so their turns
+  stopped at sign-in (Freebuff's catalog answered HTTP 401). This is
+  raw-protocol evidence, not plugin-path proof: dogfooding and owner TUI
+  UAT are pending.
+- Cursor on Linux and Windows is unverified. Claude stays a default-off
+  preview (account OAuth only; the free Claude App route stays blocked).
+  Freebuff stays experimental and default-off.
+
 ## 0.5.0 — 2026-11-06
 
 Minor release. While the package is pre-1.0, retiring the public

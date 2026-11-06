@@ -26,15 +26,15 @@ Key rules for executable resolution:
 
 ## 2. Install hmoc-steward-acp
 
-Documentation for `0.5.0`. Install it through OpenCode. This command adds it globally:
+Documentation for `0.6.0`. Install it through OpenCode. This command adds it globally:
 
 ```bash
-opencode plugin add hmoc-steward-acp@0.5.0
+opencode plugin add hmoc-steward-acp@0.6.0
 ```
 
-`0.5.0` is a minor on `0.4.2`, a patch on `0.4.1`, which is a patch on `0.4.0`, which builds on `0.3.0`. `0.3.0` carries the OpenCode 2.1.2 support repair, the first-run bind fix, and the pinned Freebuff delegate. Earlier releases (`0.2.2`, and `0.2.2-test.5` on the `testing` tag) predate the 2.1.2 repair — do not use them on an OpenCode 2.1.2 host.
+`0.6.0` is a minor on `0.5.0` that adds the opt-in Cursor harness; `0.5.0` is a minor on `0.4.2`, a patch on `0.4.1`, which is a patch on `0.4.0`, which builds on `0.3.0`. `0.3.0` carries the OpenCode 2.1.2 support repair, the first-run bind fix, and the pinned Freebuff delegate. Earlier releases (`0.2.2`, and `0.2.2-test.5` on the `testing` tag) predate the 2.1.2 repair — do not use them on an OpenCode 2.1.2 host.
 
-For project-only installation, add `"hmoc-steward-acp@0.5.0"` to `plugins` in `<repo>/opencode.json` instead. Global configuration lives at `~/.config/opencode/opencode.json`. Preserve other plugins and settings. Replace the old entry when upgrading; do not add a duplicate. The npm install needs no GitHub checkout or separate package installer.
+For project-only installation, add `"hmoc-steward-acp@0.6.0"` to `plugins` in `<repo>/opencode.json` instead. Global configuration lives at `~/.config/opencode/opencode.json`. Preserve other plugins and settings. Replace the old entry when upgrading; do not add a duplicate. The npm install needs no GitHub checkout or separate package installer.
 
 ---
 
