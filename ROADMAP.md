@@ -41,6 +41,9 @@ distribution hardening. Claude Code and Cursor are not currently supported.
 Claude Code is the next new Harness. Cursor follows Claude Code. A single
 working stream does not complete either Harness milestone. Model names, commands
 and sessions will be shown only when genuinely supported by that integration.
+Phase spec: [`.planning/phases/claude-code-acp/SPEC.md`](.planning/phases/claude-code-acp/SPEC.md)
+(draft, awaiting independent review; native delegation and main-session
+model/effort/config first, hosted second).
 
 ## What production verification covers
 

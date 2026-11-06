@@ -1,5 +1,59 @@
 # Changelog
 
+## 0.5.0 — 2026-11-06
+
+Minor release. While the package is pre-1.0, retiring the public
+`hivemind-setup` actions `status`, `verify`, `probe` and `preflight` is a
+breaking surface change, so the minor line moves. This section describes
+the release prepared for publication; publication itself is bound to the
+release receipt and is not claimed here — registry readback and human
+TUI acceptance remain pending. The release moved no dependency of its
+own beyond version metadata, but the shipped tuple did move since
+0.4.2: `@opencode/client` from 2.2.1 to 2.2.5, `effect` from 4.0.1 to
+4.0.6, and the build/test pins
+`@opencode/plugin` and `@opencode/theme` from 2.2.1 to 2.2.5 plus
+`@opentui/core` and `@opentui/solid` from 0.7.0 to 0.8.0. The OpenCode
+peer range is unchanged at `>=2.1.4 <3`; the OpenTUI peer floor is
+raised from `>=0.6.8` to `>=0.8.0` — a real support-floor raise, not a
+label change. The detected, pinned and tested development baseline is
+OpenCode 2.2.5, agy CLI 1.4.12 and Devin CLI 3000.11.234; that is a
+bounded baseline, not a certification of the whole declared range —
+runtime evidence stays bounded and owner UAT is pending. Freebuff
+remains deferred on the upstream `403 free_mode_cli_required` refusal;
+no new Freebuff work ships in this release.
+
+### Changed
+
+- The public `hivemind-setup` surface is exactly `health` | `next` |
+  `choose` (SET-09). `health` is a pure static read — filesystem stat,
+  KV read, option parse, zero engine spawns and zero writes; `next` and
+  `choose` keep the fingerprint and revision guards, persisting only on
+  real change. Engine contact is `hivemind-doctor`'s bounded `check`
+  (`initialize` depth, or consented `session` depth), `install`,
+  `sign-in` and `sign-out`, never a setup step. The retired action names
+  are historical; the embedded skill, `/hivemind-setup` command, tests
+  and docs were migrated with them.
+- Project-scoped settings and catalog publication matured (MH-51/MH-52):
+  a named foreign-default route on the provider seam with settings-write
+  publish invalidation, and `cwd`-scoped `session/list` on the shared
+  engine port. Published harness model ids through `opencode.models`
+  are metadata-only advertisements, not an entitlement or capability
+  guarantee.
+
+### Added
+
+- An optional, default-off Claude harness lane pinned to
+  `@agentclientprotocol/claude-agent-acp` 0.99.1 with Claude Agent SDK
+  0.3.312 and bundled Claude Code 2.1.312, authenticating through the
+  vendor account OAuth flow only —
+  no API-key support. Evidence is bounded to a 2026-11-05 real-host
+  initialize, an empty-session catalog and metadata publication on the
+  observed default model's effort variants. Task execution, config
+  writes, mode/model/permission surfaces, `session/list` behavior and
+  human UAT are unproven, and Claude is not certified for production
+  execution. The vendor's Free App admission route remains BLOCKED and
+  is not replaced by paid or API-key support.
+
 ## 0.4.2 — 2026-10-29
 
 Patch release. No support floor is raised or lowered: the declared range stays
@@ -78,6 +132,14 @@ catalog rows, and the Freebuff terms restrict free-tier inference to the
 official interactive clients. The Freebuff harness therefore ships
 unconfigured/experimental; supported alternatives are the paid Codebuff SDK or
 BYOK inside the official client.
+
+> **Correction (2026-10-30):** the `harnesses.<id>.permissionPolicy` facet
+> described in the Added bullets below did not ship — the parser refuses the
+> key by name and names the replacement: your OpenCode `permissions` list and
+> `agents.<id>.permissions` rows, merged last-match-wins. The global
+> `delegate_approve` option is the bounded residual answer for asks the host
+> pipeline leaves open, as the Changed section states. The Added bullets are
+> kept as shipped history.
 
 ### Added
 

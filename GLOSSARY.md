@@ -135,9 +135,13 @@ model reference and runs in the host's primary session surface rather than as a
 session identity and topology distinction only, not a permission or mode grant,
 and is distinct from the foreign Harness's **Native trajectory**; its persisted
 association is a **Root binding** at `root-bindings/<sessionID>`, distinct from
-any child-only **Child binding**.
+any child-only **Child binding**. (2026-10-31 disambiguation: REQ-NDEL-01/11's
+"native/main session" wording names the *Devin-side* concept — the foreign
+Harness's own **Foreign native trajectory**, i.e. its Native trajectory — not
+this parentless-OpenCode-session term.)
 _Avoid_: "native trajectory" or "foreign main session" (those refer to the
-Harness's own session storage and UI), "hidden child", "hosted session".
+Harness's own session storage and UI — the **Foreign native trajectory**),
+"hidden child", "hosted session".
 
 **Child continuation** — another turn on an existing Native child, made by
 calling a delegate tool with the child's native `sessionID`. It stays on the
@@ -190,6 +194,19 @@ role, or a command.
 _Avoid_: "effective model" for an unfulfilled caller selection, "driver
 sentinel", "selection origin" (a resolved model ID does not prove how it was
 chosen).
+
+**Foreign-default route** — the clearly named public selection each Harness
+exposes, distinct from its projected observed-vendor model inventory, that
+resolves to the foreign session's own default when the caller names no
+concrete model. It is a named host selection that leaves the concrete model
+choice to the foreign session — never an observed vendor row, and it carries
+no vendor model id, effort or capability claim beyond evidence. Distinct from
+**Explicit model selection** (a caller's observed `provider/model[#variant]`
+request), the private **Execution-driver identity** sentinel (transport
+plumbing, never a public selection), and **Foreign session defaults** (what
+the session itself advertises).
+_Avoid_: "default model" or "catalog row" (it advertises no vendor model),
+"sentinel alias", "vendor route".
 
 **Native tool contract** — the host tool's input/output schemas, annotations,
 options, validation and execution behavior, including controls and its complete
@@ -252,9 +269,13 @@ _Avoid_: "cached config", "authoritative catalog".
 
 **Delegated mode** — the foreign session mode a Harness Profile names for
 delegated children, in which the Harness runs authorized tools without
-asking (`bypass` for Devin, `yolo` for Antigravity). Distinct from the mode
+asking (`accept-edits` for Devin, `yolo` for Antigravity;
+`src/harness-profile.ts:151`). Devin's `accept-edits` is a deliberate middle
+posture: workspace edits auto-approve while sensitive paths still prompt —
+it is not a bypass of the foreign permission surface. Distinct from the mode
 a session starts in (a Foreign session default).
-_Avoid_: "bypass" for the general concept.
+_Avoid_: "bypass" for the general concept, and for Devin's profile in
+particular (its profile value is `accept-edits`, not `bypass`/`acceptEdits`).
 
 **Thinking facet** — a Harness's separate reasoning-effort Config Option
 (Devin's `thought_level`). A Harness without one may encode effort in its
@@ -336,8 +357,11 @@ _Avoid_: "delivered input" (delivery is the foreign-side record),
 text sent to the foreign side exactly once per role or effective-text
 revision, as one labelled block: the request's epoch baseline plus, when
 verified durable updates exist, a labelled chronological-updates section
-carrying those update texts. Native-authored guidance on the Foreign
-trajectory; not a Foreign session default or an Effective foreign setting.
+carrying those update texts; the saved `instructions` facet may append
+its own labelled operator-instructions section to this block for
+new/fresh trajectories (REQ-SETUP-27). Native-authored guidance on the
+Foreign trajectory; not a Foreign session default or an Effective
+foreign setting.
 _Avoid_: "system prompt" alone (collides with the Composer's user prompt),
 "foreign config".
 
@@ -360,6 +384,10 @@ creation time. Distinct from **Explicit model selection** (the caller's
 request), **Execution-driver identity** (the private route sentinel),
 **Foreign session defaults** (what the session advertises), and **Effective
 foreign settings** (what is confirmed in effect on a live trajectory).
+(2026-10-31: its configured source is REQ-SETUP-26's shared
+`delegate.<harness>.models` chain, admitted at the hosted `session/new`
+creation window and at native admission — the retired `hosted.<harness>` /
+`HostedCreationPolicy` / direct-`mode`-facet projection is historical only.)
 _Avoid_: "explicit model" (that is the caller's selection, not its
 admission), "model mediation" (a mid-session relabel; admission is
 creation-only), "pure intent" (planning an operation is not a confirmed
@@ -477,8 +505,11 @@ classes (`foreign-boundary` | `suspected-boundary` | `unclassified`) without
 failing, pausing, cancelling, or retrying the turn (`REQ-NBR-21`, decision 117):
 `foreign-boundary` only when the foreign client's own reported text matches a
 pinned, vendor-specific denial phrase decoded through the **Wire dialect**;
-`suspected-boundary` when the failed call reports a path outside the session
-workspace (`cwd` plus decoded declared roots) with unknown text; and
+`suspected-boundary` only when the refusal text names a path outside the session
+workspace (`cwd` plus decoded declared roots), or when a genuine per-call failure
+reports such a path and the refusal text names none; a failed call's own
+`locations`/`rawInput` path MUST NOT be treated as evidence about the refused
+operation; and
 `unclassified` otherwise. Host-decided refusals (scope admission or permission
 bridge correlated by `toolCallId`) are suppressed and never reported as a
 foreign-boundary denial. Warnings surface on existing surfaces (the hosted
@@ -552,14 +583,104 @@ bindings are not the inventory), "live listing".
 **Delegate config** — the versioned `config/delegate` document in the
 plugin's global `ctx.storage` namespace: the durable record of Harness
 registration (`enabled`/`rank`/`bin`), per-Harness Creation policy
-(`models`), and opt-in `limits`. Read under precedence
-per-project `ctx.options` → document → built-in defaults; per-project
-variation exists only as the `ctx.options` overlay, never a second
-storage scope. Retired public facets (`thinking`, `hosted`) remain
-schema-known as **named-stale** entries: user data preserved verbatim but
-carrying no weight in the effective policy.
-_Avoid_: "settings file" (it is KV, not a file), "project config" (the
-document itself is global per plugin id).
+(`models`), additive saved `instructions`, and opt-in `limits`. Read
+under precedence per-project `ctx.options` → **Project config** →
+document → built-in defaults. Retired public facets (`thinking`,
+`hosted`) remain schema-known as **named-stale** entries: user data
+preserved verbatim but carrying no weight in the effective policy.
+After the consented `migrate-settings` step it stays on disk verbatim
+as the **genesis anchor** — validated once into the mutation log, never
+written again; later fingerprint drift reports
+`legacy-baseline-changed`.
+_Avoid_: "settings file" (it is KV, not a file), "project config" (this
+document is global per plugin id — project-scoped values live in the
+project scope or the `ctx.options` overlay).
+
+**repoKey** — the project scope's storage identity:
+`"rp_" + sha256(normalize(canonical))` where `canonical` is the host's
+per-clone main-worktree directory (`ctx.location.project.canonical`).
+Linked worktrees of one clone share it; separate physical clones of the
+same remote differ; a non-git directory resolves a deterministic
+directory key; `Project.ID.global` or an unresolvable canonical yields
+`project scope unavailable`. The host's `project.id` is a remote-URL
+hash shared by every clone — correlation evidence only, never the
+scope key.
+_Avoid_: "project id" (that is the remote hash), "worktree id" (the
+key spans the worktree group).
+
+**Project config** — the `config/settings/project/<repoKey>/` scope
+holding project-scoped saved overrides (`delegate.<harness>.models`,
+`limits`, `instructions`, per-harness `bin`/`enabled`/`rank`), keyed by
+**repoKey**. It sits between `ctx.options` and **Delegate config** in
+per-facet precedence; its winner stamp is `doc-project`. A facet absent
+or cleared inherits the global layer — never a winner-take-all overlay.
+_Avoid_: "worktree config" (identity is the canonical checkout, not
+the checkout path).
+
+**Settings scope** — the write target a settings change lands in:
+`global` or `project` (the `config/settings/<scopeKey>/` family), or a
+live session's own mediated options. Every settings write names its
+scope; saved-scope writes never touch a live session.
+_Avoid_: "level", "layer" (a layer is a precedence source, not a
+destination).
+
+**Settings mutation** — an immutable, content-addressed envelope at
+`config/settings/<scopeKey>/mut/<mutationID>` carrying facet
+set/clear `ops`, parent head ids, and `cause` provenance
+(`{stepId, op, writer, issuedAt}`). `mutationID =
+sha256(canonical(envelope-minus-id))` — the whole immutable body
+**including `cause`**, so the key always commits to the stored bytes. `cause.op`
+and `cause.issuedAt` are minted once when `next` issues the step and
+echoed verbatim by `choose` — an exact retry reproduces identical
+bytes and the same key; a different writer or occasion token with the
+same `ops` lands as a distinct durable head whose provenance is never
+overwritten. Envelopes are never rewritten; the fold over a scope's
+`mut/` prefix derives heads (envelopes never named as parents), and
+|heads|>1 is a **Contended document**.
+
+**Masked value** — a set-but-losing layer's value in the effective
+settings table, labelled `masked-by-<winning source>`: always shown,
+never rendered as absent or silently shadowed.
+
+**Settings page** — the `hivemind-settings` TUI `Page` (`{name,
+render}`) registered via `ctx.ui.router`: one of the two transports
+onto the shared settings step machine (the other is the conversational
+`hivemind-setup` skill/command). It reads and writes only through the
+plugin's typed settings RPC contract with an explicit location/directory
+fence on every call — never a `config/*` key, `ctx.storage.store`, or
+`ctx.options` fold; an unreachable contract renders `unavailable`.
+_Avoid_: "settings UI" alone (the conversational path is also the
+surface), "panel" (it is a route page, not the `session.panel` slot).
+
+**Contended document** — a scope whose fold finds more than one head:
+competing mutations from interleaved writers, all durably retained.
+The projection names every head with its `cause.writer` provenance and
+fails closed for further `choose` writes until the user resolves the
+fork (keep-head or an explicit merge envelope). Detection is
+structural — no lock or CAS is claimed.
+_Avoid_: "locked" (no lock exists), "conflict" alone (a stale
+expected-head set is a refusal, not a fork).
+
+**Externally-modified document** — a scope whose folded head set or
+content differs from the fingerprint a step was issued against because
+a write this process did not make landed: surfaced with the surviving
+`cause.writer` before any further write is accepted.
+
+**Genesis anchor** — the preserved legacy `config/delegate` document
+recorded at migration as `{source, revision, fingerprint}` plus a
+parents-`[]` genesis envelope carrying its validated effective fields;
+the anchor is never written again, and a later fingerprint difference
+reports `legacy-baseline-changed` — a visible conflict, never a silent
+re-import.
+
+**Guided repair** — the fingerprinted `repair-document` step issued on
+a malformed document or invalid/incomplete history: per-issue
+`dropField` / `resetDocument` (preview enumerates deletions) /
+`restoreBackup(headId)` remedies, each an explicitly consented `choose`
+emitting one envelope; the immutable log itself is the backup store —
+every prior effective state stays addressable by head id, and a
+credential-quarantined document is never copied into history
+(`BLOCKED` stays the out-of-band path).
 
 **Bound-but-unprompted child** — a Native child whose Child binding and
 Foreign session exist but on which zero foreign turns have run: after
@@ -573,7 +694,10 @@ _Avoid_: "unbound child" (the binding already exists), "idle child"
 ranked fallback slots, resolved against the freshly advertised catalog
 inside the Bound-but-unprompted window: an unadvertised or misconfirmed
 slot advances to the next; a transport/RPC failure fails the call, and
-exhausted slots fail before any prompt. Same Harness, same child only.
+exhausted slots fail before any prompt. Same Harness, same child only;
+the same saved chain resolves in the hosted creation window
+(`session/new` → first task prompt) for saved session defaults
+(REQ-SETUP-26).
 _Avoid_: "fallback" alone (a supplied explicit model is never fallen
 over), "retry" (nothing is resent).
 
@@ -610,13 +734,14 @@ _Avoid_: "orphan" (it may be healthy and intended), "untracked" (the
 binding exists; only the admission record is missing).
 
 **Side-effect tier** — the setup tool's action classification: static
-read (`status`/`next`: filesystem stat, KV read, option parse — zero
-engine spawns), bounded engine probe (`probe`: launch + `initialize`
-returning initialize facts only — `initialize` carries no catalog —
-no foreign turn, no writes), and document mutation (`choose`); install
-and sign-in are consent-gated doctor actions outside the step tool.
-_Avoid_: "read-only" for `probe` (a probe spawns a process and may
-spend), "setup step" for the tier itself.
+read (`health`/`next`: filesystem stat, KV read, option parse — zero
+engine spawns, zero writes) and document mutation (`choose`). Engine
+contact is `hivemind-doctor`'s bounded checks (`check`: launch +
+`initialize`, opt-in consented `session` depth; install and sign-in),
+never a step-tool action. The retired public `status`/`verify`/`probe`/
+`preflight` names are historical (SET-09).
+_Avoid_: "read-only" for doctor checks (a check spawns a process and
+may spend), "setup step" for the tier itself.
 
 **Facts fingerprint** — the hash of the detected facts a `next` step was
 planned over, revalidated inside the serialized write before `choose`
@@ -669,6 +794,19 @@ created, rotated or ended. Distinct from the OpenCode **Native child**
 session (our binding), the worker's foreign ACP session id (`fbws-*`) and
 the opaque SDK `RunState.sessionState`.
 _Avoid_: "session", "conversation" for the ACP or host-side objects.
+
+**Freebuff durable checkpoint** — the plugin-owned persisted copy of the
+opaque SDK `RunState` (`sessionState` continuity blob) plus its index row,
+kept under private plugin state so a plugin-created **Freebuff
+conversation** can re-bind after a worker restart. The blob is continuity
+payload — never parsed, never identity — while the row binds
+`{credential scope/account + owned model + verified lease instance +
+workspace}`. Distinct from a **Binding checkpoint**, which is the
+native-side metadata summary for a bound child and records binding state
+only: a Binding checkpoint names that a conversation exists; a Freebuff
+durable checkpoint carries the opaque context a resume actually consumes.
+_Avoid_: "binding state" (that is the native record), "conversation
+backup" (the blob is opaque continuity, not a readable transcript).
 
 **Catalog key** — the stable logical row id in the live Freebuff model
 catalog (`m-…`): the selectable model id the picker and provider
@@ -893,6 +1031,11 @@ advertised catalog binds as-is, and `model`/`mode`/`thinking` change only
 through the interactive pickers or the mediated `hivemind-hosted` targeted
 request. A legacy `hosted.<harness>` block in `config/delegate` is preserved
 user data, never applied; `session/load` continuations never write.
+(2026-10-31 reconcile: REQ-SETUP-26 is now the operative creation-policy
+rule — the shared `delegate.<harness>.models` chain is admitted *at* the
+`session/new` creation window for Devin and Antigravity, a creation-time
+admission distinct from this entry's retired post-creation-write and
+`hosted.<harness>`/`mode`-facet mechanisms, which stay historical.)
 _Avoid_: "hosted defaults" (implies foreign session defaults), "delegated mode".
 
 **Origin-labelled completion** — the Composer completion and command-list
