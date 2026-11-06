@@ -14,8 +14,11 @@ The installer and setup workflow verify each **Harness** independently. You can 
 
 | Harness | Provider ID | Required `acpBinary` (ACP stdio server) | Optional `cliCompanion` (terminal CLI) | Authentication |
 |---|---|---|---|---|
-| **Devin** | `devin-native` | `devin` on `PATH` (or `DEVIN_BIN` / `harnesses.devin.bin`) | Same CLI; development baseline `3000.11.92` | `devin auth login` |
-| **Antigravity** | `antigravity-native` | Official ACP server `1.4.0`, `agy_acp_server.par` on macOS or `agy_acp_server.exe` on Windows; managed install or `harnesses.antigravity.bin` | `agy` CLI `1.4.2` is optional and separate | ACP server's advertised `authenticate` flow |
+| **Devin** | `devin-native` | `devin` on `PATH` (or `DEVIN_BIN` / `harnesses.devin.bin`) | Same CLI; development baseline `3000.11.234` | `devin auth login` |
+| **Antigravity** | `antigravity-native` | Official ACP server `1.4.3`, `agy_acp_server.par` on macOS or `agy_acp_server.exe` on Windows; managed install or `harnesses.antigravity.bin` | `agy` CLI `1.4.12` is optional and separate | ACP server's advertised `authenticate` flow |
+| **Claude** (default-off preview) | `claude-native` | Pinned `@agentclientprotocol/claude-agent-acp@0.99.1` adapter at an explicit existing path (`harnesses.claude.bin` / `claude_bin` / `CLAUDE_ACP_BIN`); never implicit npx | None | Account OAuth via the adapter's `--cli` login only; the free Claude App route is upstream-blocked and there is no API-key path |
+| **Cursor** (opt-in) | `cursor-native` | `cursor-agent acp`: `harnesses.cursor.bin` / `cursor_bin` / `CURSOR_AGENT_BIN`, else `~/.local/bin/cursor-agent`, else `PATH`; baseline `2026.11.05-86047df` on darwin-arm64 | Same CLI | `cursor-agent login` |
+| **Freebuff** (experimental, opt-in, deny-only) | `freebuff-native` | Worker ships inside the plugin; `harnesses.freebuff.bin` / `HMOC_FREEBUFF_BIN` selects the Bun runtime that executes it | None | Official Freebuff client sign-in; upstream currently refuses free-mode completions (`403 free_mode_cli_required`) |
 
 Key rules for executable resolution:
 - An Antigravity-only setup succeeds without requiring the `devin` CLI on your machine.
@@ -26,15 +29,15 @@ Key rules for executable resolution:
 
 ## 2. Install hmoc-steward-acp
 
-Documentation for `0.6.0`. Install it through OpenCode. This command adds it globally:
+Documentation for `0.6.1`. Install it through OpenCode. This command adds it globally:
 
 ```bash
-opencode plugin add hmoc-steward-acp@0.6.0
+opencode plugin add hmoc-steward-acp@0.6.1
 ```
 
-`0.6.0` is a minor on `0.5.0` that adds the opt-in Cursor harness; `0.5.0` is a minor on `0.4.2`, a patch on `0.4.1`, which is a patch on `0.4.0`, which builds on `0.3.0`. `0.3.0` carries the OpenCode 2.1.2 support repair, the first-run bind fix, and the pinned Freebuff delegate. Earlier releases (`0.2.2`, and `0.2.2-test.5` on the `testing` tag) predate the 2.1.2 repair — do not use them on an OpenCode 2.1.2 host.
+`0.6.1` is a patch on `0.6.0` carrying scoped test and seam hardening — no new capability; `0.6.0` is a minor on `0.5.0` that adds the opt-in Cursor harness; `0.5.0` is a minor on `0.4.2`, a patch on `0.4.1`, which is a patch on `0.4.0`, which builds on `0.3.0`. `0.3.0` carries the OpenCode 2.1.2 support repair, the first-run bind fix, and the pinned Freebuff delegate. Earlier releases (`0.2.2`, and `0.2.2-test.5` on the `testing` tag) predate the 2.1.2 repair — do not use them on an OpenCode 2.1.2 host.
 
-For project-only installation, add `"hmoc-steward-acp@0.6.0"` to `plugins` in `<repo>/opencode.json` instead. Global configuration lives at `~/.config/opencode/opencode.json`. Preserve other plugins and settings. Replace the old entry when upgrading; do not add a duplicate. The npm install needs no GitHub checkout or separate package installer.
+For project-only installation, add `"hmoc-steward-acp@0.6.1"` to `plugins` in `<repo>/opencode.json` instead. Global configuration lives at `~/.config/opencode/opencode.json`. Preserve other plugins and settings. Replace the old entry when upgrading; do not add a duplicate. The npm install needs no GitHub checkout or separate package installer.
 
 ---
 

@@ -6,17 +6,17 @@
 
 Give your OpenCode agent a colleague. This plugin opens a real Devin or Antigravity session in your TUI when you want to watch, and hands work to one in the background when you do not.
 
-Install `hmoc-steward-acp` 0.6.0, run setup once, then work normally.
+Install `hmoc-steward-acp` 0.6.1, run setup once, then work normally.
 
 ### Install
 
-Documentation for `0.6.0`:
+Documentation for `0.6.1`:
 
 ```bash
-opencode plugin add hmoc-steward-acp@0.6.0
+opencode plugin add hmoc-steward-acp@0.6.1
 ```
 
-`0.6.0` is a minor on `0.5.0` that adds the opt-in Cursor harness; `0.5.0` is a minor on `0.4.2`, a patch on `0.4.1`, which is a patch on `0.4.0`, which builds on `0.3.0`. `0.3.0` carries the OpenCode 2.1.2 support repair, the first-run bind fix, and the pinned Freebuff delegate. Earlier `0.2.x` releases (including `0.2.2` and `0.2.2-test.5` on the `testing` tag) remain installable but predate the 2.1.2 repair — do not use them on an OpenCode 2.1.2 host.
+`0.6.1` is a patch on `0.6.0` carrying scoped test and seam hardening — no new capability; `0.6.0` is a minor on `0.5.0` that adds the opt-in Cursor harness; `0.5.0` is a minor on `0.4.2`, a patch on `0.4.1`, which is a patch on `0.4.0`, which builds on `0.3.0`. `0.3.0` carries the OpenCode 2.1.2 support repair, the first-run bind fix, and the pinned Freebuff delegate. Earlier `0.2.x` releases (including `0.2.2` and `0.2.2-test.5` on the `testing` tag) remain installable but predate the 2.1.2 repair — do not use them on an OpenCode 2.1.2 host.
 
 Project-only install: add the package to the `plugins` array of that project's `opencode.json` and skip the global command.
 
@@ -171,17 +171,17 @@ Referral links and donations never affect what the plugin does. Referral sign-up
 
 Cho agent OpenCode của bạn một đồng nghiệp. Plugin mở phiên Devin hoặc Antigravity thật ngay trong TUI khi bạn muốn xem, và giao việc chạy nền khi bạn không ngồi đó.
 
-Cài `hmoc-steward-acp` 0.6.0, chạy thiết lập một lần, rồi làm việc bình thường.
+Cài `hmoc-steward-acp` 0.6.1, chạy thiết lập một lần, rồi làm việc bình thường.
 
 ### Cài đặt
 
-Tài liệu cho `0.6.0`:
+Tài liệu cho `0.6.1`:
 
 ```bash
-opencode plugin add hmoc-steward-acp@0.6.0
+opencode plugin add hmoc-steward-acp@0.6.1
 ```
 
-`0.6.0` là bản minor trên `0.5.0`, bổ sung harness Cursor cần bật tường minh; `0.5.0` là bản minor trên `0.4.2` — một bản vá trên `0.4.1`, vốn là bản vá trên `0.4.0`, vốn được xây trên `0.3.0`. `0.3.0` mang bản sửa lỗi hỗ trợ OpenCode 2.1.2, bản sửa lỗi bind lần đầu, và delegate Freebuff đã ghim. Các bản `0.2.x` trước đó (gồm `0.2.2` và `0.2.2-test.5` trên thẻ `testing`) vẫn cài được nhưng có trước bản sửa 2.1.2 — đừng dùng chúng trên host OpenCode 2.1.2.
+`0.6.1` là bản vá trên `0.6.0`, củng cố test và seam ủy quyền — không có năng lực mới; `0.6.0` là bản minor trên `0.5.0`, bổ sung harness Cursor cần bật tường minh; `0.5.0` là bản minor trên `0.4.2` — một bản vá trên `0.4.1`, vốn là bản vá trên `0.4.0`, vốn được xây trên `0.3.0`. `0.3.0` mang bản sửa lỗi hỗ trợ OpenCode 2.1.2, bản sửa lỗi bind lần đầu, và delegate Freebuff đã ghim. Các bản `0.2.x` trước đó (gồm `0.2.2` và `0.2.2-test.5` trên thẻ `testing`) vẫn cài được nhưng có trước bản sửa 2.1.2 — đừng dùng chúng trên host OpenCode 2.1.2.
 
 Chỉ dùng trong một dự án: thêm gói vào mảng `plugins` trong `opencode.json` của dự án đó, bỏ qua lệnh cài toàn cục.
 

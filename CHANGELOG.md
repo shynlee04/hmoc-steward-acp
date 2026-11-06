@@ -1,5 +1,55 @@
 # Changelog
 
+## 0.6.1 — 2026-11-06
+
+Patch release. No new capability over `0.6.0`: the payload is scoped
+test and seam hardening (MH-53) from a bounded, hand-picked mutation
+campaign over the Cursor delegation surface. Publication, including
+registry readback, is recorded on the separate release receipt and is
+not claimed here; human TUI acceptance remains pending. No dependency
+moved beyond version
+metadata. The development baseline is unchanged: OpenCode 2.2.5, agy
+CLI 1.4.12, Devin CLI 3000.11.234.
+
+### Changed
+
+- The delegation boundary-install decision moved out of the
+  `server.ts` call-site conditional into the named exported seam
+  `delegationEngineHooks(profile, hooks)` in the session-list boundary
+  module, which `server.ts` now composes. Behavior is unchanged: a
+  profile declaring `engineBoundary` gets its launch pair wrapped so
+  `listSessions` refuses an unscoped call (REQ-CUR-06); a boundary-less
+  profile gets the identical pair back untouched.
+
+### Test hardening
+
+- Cursor's launch fallback is pinned verbatim — `homeFallback:
+  [{ base: "home", relPath: ".local/bin/cursor-agent" }]` — so the
+  configured-first install contract (REQ-CUR-01) now fails on a mutated
+  relPath instead of passing silently.
+- Both `delegationEngineHooks` branches are pinned at the seam — the
+  wrapped pair refuses an unscoped `listSessions` and forwards scoped
+  callers, the identity pair is returned untouched. These are scoped
+  pins over named surfaces, not suite-wide mutation coverage, and no
+  mutation score is claimed.
+
+### Evidence and limits
+
+- Campaign verdicts, including survivor-rerun results, live in the
+  mutation record under `.audit/`; this entry claims only the scoped
+  pins above and no global coverage.
+- Live harness evidence is unchanged from `0.6.0`: raw ACP receipts for
+  the Antigravity ACP server `1.4.3` and `cursor-agent`
+  `2026.11.05-86047df` on darwin-arm64 (2026-11-06) are wire-level
+  evidence, not hosted, TUI or native plugin-path proof — dogfooding
+  and owner TUI UAT remain pending.
+- Devin, Claude and Freebuff sign-ins still gate their live cells:
+  `devin auth login`, the Claude adapter's account-OAuth `--cli` login
+  (the free Claude App route stays upstream-blocked and there is no
+  API-key path), and the official Freebuff client. Cursor exposes no
+  discrete thinking control. Owner UAT (UAT-01..08) and the REQ-REL-20
+  envelope remain pending.
+
 ## 0.6.0 — 2026-11-06
 
 Minor release adding a fifth delegate Harness, **Cursor**, opt-in only.
