@@ -327,7 +327,10 @@ are recorded in `consumedInputs` on the new binding so prior turns are never
 re-executed or re-sent on subsequent turns. The seeded history is the verified
 ordered host context read through the public `ctx.session.context` seam —
 genuine host compaction summaries plus user, assistant and tool rows; a
-metadata-only **Binding checkpoint** is never substituted for conversation.
+**Portable context fold**'s carried transcript is admissible verified
+context because it re-supplies those same rows verbatim at the barrier
+(2026-11-07), while a metadata-only **Binding checkpoint** is never
+substituted for conversation.
 Applicable context is preserved without silent truncation or automatic
 summarization, and the host never compacts automatically before a model switch
 (Decision 115). When the context is unavailable or unverified, carries corrupt
@@ -400,8 +403,32 @@ lives on the bound Foreign trajectory. Native history keeps a checkpoint;
 the Foreign trajectory owns the conversation context. A checkpoint is
 metadata, not conversation history, and can never stand in for the verified
 ordered host context that **Transcript history seeding** requires.
-_Avoid_: "context copy" (nothing is copied), "prompt summary" (it carries
-no prompt-derived content).
+(2026-11-07: a bound compaction barrier may additionally carry a **Portable
+context fold** — the checkpoint remains that barrier's identity/provenance
+role while the fold is its separate approved content carrier; the checkpoint
+alone still never substitutes for conversation, and a legacy provenance-only
+barrier stays checkpoint-only.)
+_Avoid_: "context copy" for the checkpoint itself (its identity fields copy
+nothing), "prompt summary" (the checkpoint carries no prompt-derived
+content; approved window content lives in the fold, not the checkpoint).
+
+**Portable context fold** — the approved local record a fulfilled native
+compaction barrier carries beside its provenance fields: a bounded, labeled
+model-facing summary plus a durable verbatim transcript of the visible
+native window the barrier folds — ordered user goals and requests, assistant
+progress, settled tool call/result identity, and media/`Attached file:`
+representations. The transcript re-supplies the folded window verbatim,
+re-embedding every prior fold's transcript on repeated folds, so
+**Transcript history seeding** reconstructs applicable context losslessly
+under the decision-115 pause contract while the same-session model-facing
+prompt sees only the bounded summary plus the kept tail. It is a local
+witness copy of content the host already retains: foreign-side content the
+native context never surfaced, credentials, filesystem and native-store
+secrets never enter it. Distinct from a **Binding checkpoint** (identity
+and provenance metadata, never conversation) and from any foreign
+transcript (no foreign turn or foreign-side content is involved).
+_Avoid_: "checkpoint" alone (that is the identity record), "summary" (the
+transcript is verbatim, not summarized), "foreign history".
 
 **Effective foreign settings** — the model and thinking values in effect on a
 **Foreign trajectory** as evidenced by that session's own confirmed catalog

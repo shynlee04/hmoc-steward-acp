@@ -8,14 +8,14 @@ Tài liệu hướng dẫn này giúp bạn đi từ bản cài đặt [OpenCode
 
 ## 1. Kiểm tra điều kiện tiên quyết theo từng Harness
 
-Bạn cần host OpenCode V2 trong khoảng hỗ trợ: `opencode --version` trả về v2.1.4 trở lên trong nhánh v2 (dưới v3) trên `PATH`. Host V1 không thể nạp điểm vào TUI của plugin, và v2.0.x nằm dưới mức hỗ trợ tối thiểu. Khoảng peer OpenCode công bố không đổi trong `0.5.0`; sàn peer OpenTUI nâng từ `>=0.6.8` lên `>=0.8.0`. Baseline phát triển và kiểm thử được ghim là OpenCode 2.2.5. Bằng chứng runtime đã quan sát trước đây giữ nguyên là lịch sử: 6 route ủy quyền gốc (Devin và Antigravity giao việc cho self, harness đối ứng, và executor) đã đạt với các marker trên OpenCode 2.2.1, và các thử nghiệm cô lập trước đó cũng xác nhận đăng ký plugin, session/RPC và TUI với server 2.1.4 — không có tuyên bố chứng nhận toàn dải peer. Hosted attach, rebind sidecar và UAT TUI từ chủ sở hữu vẫn đang chờ; Freebuff phía thượng nguồn tiếp tục bị chặn.
+Bạn cần host OpenCode V2 trong khoảng hỗ trợ: `opencode --version` trả về v2.1.4 trở lên trong nhánh v2 (dưới v3) trên `PATH`. Host V1 không thể nạp điểm vào TUI của plugin, và v2.0.x nằm dưới mức hỗ trợ tối thiểu. Khoảng peer OpenCode công bố không đổi trong `0.5.0`; sàn peer OpenTUI nâng từ `>=0.6.8` lên `>=0.8.0`. Baseline phát triển và kiểm thử được ghim là OpenCode 2.2.6. Bằng chứng runtime đã quan sát trước đây giữ nguyên là lịch sử: 6 route ủy quyền gốc (Devin và Antigravity giao việc cho self, harness đối ứng, và executor) đã đạt với các marker trên OpenCode 2.2.1, và các thử nghiệm cô lập trước đó cũng xác nhận đăng ký plugin, session/RPC và TUI với server 2.1.4 — không có tuyên bố chứng nhận toàn dải peer. Hosted attach, rebind sidecar và UAT TUI từ chủ sở hữu vẫn đang chờ; Freebuff phía thượng nguồn tiếp tục bị chặn.
 
 Trình cài đặt và luồng thiết lập kiểm tra độc lập từng **Harness**. Bạn có thể chỉ dùng Devin, chỉ dùng Antigravity, hoặc kết hợp cả hai:
 
 | Harness | Provider ID | `acpBinary` bắt buộc (máy chủ ACP stdio) | `cliCompanion` tùy chọn (CLI dòng lệnh) | Xác thực |
 |---|---|---|---|---|
 | **Devin** | `devin-native` | `devin` trên `PATH` (hoặc `DEVIN_BIN` / `harnesses.devin.bin`) | Cùng CLI; mốc phát triển `3000.11.234` | `devin auth login` |
-| **Antigravity** | `antigravity-native` | Máy chủ ACP chính thức `1.4.3`: `agy_acp_server.par` trên macOS hoặc `agy_acp_server.exe` trên Windows; bản cài được quản lý hoặc `harnesses.antigravity.bin` | `agy` CLI `1.4.12` là công cụ riêng, không bắt buộc | Luồng `authenticate` do máy chủ ACP công bố |
+| **Antigravity** | `antigravity-native` | Máy chủ ACP chính thức `1.4.3`: `agy_acp_server.par` trên macOS hoặc `agy_acp_server.exe` trên Windows; bản cài được quản lý hoặc `harnesses.antigravity.bin` | `agy` CLI `1.5.3` là công cụ riêng, không bắt buộc | Luồng `authenticate` do máy chủ ACP công bố |
 | **Claude** (xem trước, mặc định tắt) | `claude-native` | Adapter ghim `@agentclientprotocol/claude-agent-acp@0.99.1` tại đường dẫn tường minh có sẵn (`harnesses.claude.bin` / `claude_bin` / `CLAUDE_ACP_BIN`); không bao giờ npx ngầm | Không | Chỉ OAuth tài khoản qua lệnh `--cli` của adapter; tuyến Claude App miễn phí bị chặn ở thượng nguồn và không có đường API-key |
 | **Cursor** (cần bật tường minh) | `cursor-native` | `cursor-agent acp`: `harnesses.cursor.bin` / `cursor_bin` / `CURSOR_AGENT_BIN`, nếu không thì `~/.local/bin/cursor-agent`, nếu không thì `PATH`; mốc `2026.11.05-86047df` trên darwin-arm64 | Cùng CLI | `cursor-agent login` |
 | **Freebuff** (thử nghiệm, cần bật, chỉ-từ-chối) | `freebuff-native` | Worker đi kèm trong plugin; `harnesses.freebuff.bin` / `HMOC_FREEBUFF_BIN` chọn runtime Bun thực thi nó | Không | Đăng nhập qua client Freebuff chính thức; thượng nguồn đang từ chối completion chế độ miễn phí (`403 free_mode_cli_required`) |
@@ -29,15 +29,15 @@ Quy tắc phân giải tệp thực thi:
 
 ## 2. Cài đặt hmoc-steward-acp
 
-Tài liệu cho `0.6.1`. Cài nó qua OpenCode. Lệnh này thêm plugin ở phạm vi toàn cục:
+Tài liệu cho `0.6.2`. Cài nó qua OpenCode. Lệnh này thêm plugin ở phạm vi toàn cục:
 
 ```bash
-opencode plugin add hmoc-steward-acp@0.6.1
+opencode plugin add hmoc-steward-acp@0.6.2
 ```
 
-`0.6.1` là bản vá trên `0.6.0`, củng cố test và seam ủy quyền — không có năng lực mới; `0.6.0` là bản minor trên `0.5.0`, bổ sung harness Cursor cần bật tường minh; `0.5.0` là bản minor trên `0.4.2` — một bản vá trên `0.4.1`, vốn là bản vá trên `0.4.0`, vốn được xây trên `0.3.0`. `0.3.0` mang bản sửa lỗi hỗ trợ OpenCode 2.1.2, bản sửa lỗi bind lần đầu, và delegate Freebuff đã ghim. Các bản phát hành trước đó (`0.2.2`, và `0.2.2-test.5` trên thẻ `testing`) có trước bản sửa 2.1.2 — đừng dùng chúng trên host OpenCode 2.1.2.
+`0.6.2` là bản 0.6.2 không xác thực chính thức mang bốn đóng wiring-gap (ND-44, SET-19, T08/T09), alignment baseline Devin 3000.12.32, và bằng chứng model dùng chung cursor, gồm học bound ngữ cảnh từ `usage_update` (ND-42) và attribution lỗi `-32603` (ND-43) từ `0.6.1`. `0.6.1` là bản vá trên `0.6.0`, củng cố test và seam ủy quyền — không có năng lực mới; `0.6.0` là bản minor trên `0.5.0`, bổ sung harness Cursor cần bật tường minh; `0.5.0` là bản minor trên `0.4.2` — một bản vá trên `0.4.1`, vốn là bản vá trên `0.4.0`, vốn được xây trên `0.3.0`. `0.3.0` mang bản sửa lỗi hỗ trợ OpenCode 2.1.2, bản sửa lỗi bind lần đầu, và delegate Freebuff đã ghim. Các bản phát hành trước đó (`0.2.2`, và `0.2.2-test.5` trên thẻ `testing`) có trước bản sửa 2.1.2 — đừng dùng chúng trên host OpenCode 2.1.2.
 
-Muốn chỉ dùng trong dự án này, thêm `"hmoc-steward-acp@0.6.1"` vào mảng `plugins` trong `<repo>/opencode.json`. Cấu hình toàn cục nằm tại `~/.config/opencode/opencode.json`. Giữ nguyên plugin và thiết lập khác. Khi nâng cấp, thay mục cũ thay vì thêm bản trùng. Bản cài npm không cần tải mã từ GitHub hay chạy trình cài đặt riêng.
+Muốn chỉ dùng trong dự án này, thêm `"hmoc-steward-acp@0.6.2"` vào mảng `plugins` trong `<repo>/opencode.json`. Cấu hình toàn cục nằm tại `~/.config/opencode/opencode.json`. Giữ nguyên plugin và thiết lập khác. Khi nâng cấp, thay mục cũ thay vì thêm bản trùng. Bản cài npm không cần tải mã từ GitHub hay chạy trình cài đặt riêng.
 
 ---
 

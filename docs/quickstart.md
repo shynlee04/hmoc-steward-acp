@@ -8,14 +8,14 @@ This tutorial walks you from a clean [OpenCode V2](https://opencode.ai/v2/docs) 
 
 ## 1. Check prerequisites per Harness
 
-You need an OpenCode V2 host in the supported range: `opencode --version` reports v2.1.4 or later within v2 (below v3) on your `PATH`. A V1 host cannot load the plugin's TUI entry point, and v2.0.x is below the supported floor. The declared OpenCode peer range is unchanged in `0.5.0`; the OpenTUI peer floor moved from `>=0.6.8` to `>=0.8.0`. The pinned development and test baseline is OpenCode 2.2.5. Previously observed runtime evidence stays historical: 6 native-delegation routes (Devin and Antigravity each delegating to self, other harness, and executor) were exercised successfully with passing markers on OpenCode 2.2.1, and bounded isolated testing also verified registration, session/RPC, and TUI surfaces against a 2.1.4 server — no full peer-range certification is claimed. Hosted attach, sidecar rebind, and owner TUI UAT remain pending; Freebuff upstream remains blocked.
+You need an OpenCode V2 host in the supported range: `opencode --version` reports v2.1.4 or later within v2 (below v3) on your `PATH`. A V1 host cannot load the plugin's TUI entry point, and v2.0.x is below the supported floor. The declared OpenCode peer range is unchanged in `0.5.0`; the OpenTUI peer floor moved from `>=0.6.8` to `>=0.8.0`. The pinned development and test baseline is OpenCode 2.2.6. Previously observed runtime evidence stays historical: 6 native-delegation routes (Devin and Antigravity each delegating to self, other harness, and executor) were exercised successfully with passing markers on OpenCode 2.2.1, and bounded isolated testing also verified registration, session/RPC, and TUI surfaces against a 2.1.4 server — no full peer-range certification is claimed. Hosted attach, sidecar rebind, and owner TUI UAT remain pending; Freebuff upstream remains blocked.
 
 The installer and setup workflow verify each **Harness** independently. You can configure Devin alone, Antigravity alone, or both together:
 
 | Harness | Provider ID | Required `acpBinary` (ACP stdio server) | Optional `cliCompanion` (terminal CLI) | Authentication |
 |---|---|---|---|---|
 | **Devin** | `devin-native` | `devin` on `PATH` (or `DEVIN_BIN` / `harnesses.devin.bin`) | Same CLI; development baseline `3000.11.234` | `devin auth login` |
-| **Antigravity** | `antigravity-native` | Official ACP server `1.4.3`, `agy_acp_server.par` on macOS or `agy_acp_server.exe` on Windows; managed install or `harnesses.antigravity.bin` | `agy` CLI `1.4.12` is optional and separate | ACP server's advertised `authenticate` flow |
+| **Antigravity** | `antigravity-native` | Official ACP server `1.4.3`, `agy_acp_server.par` on macOS or `agy_acp_server.exe` on Windows; managed install or `harnesses.antigravity.bin` | `agy` CLI `1.5.3` is optional and separate | ACP server's advertised `authenticate` flow |
 | **Claude** (default-off preview) | `claude-native` | Pinned `@agentclientprotocol/claude-agent-acp@0.99.1` adapter at an explicit existing path (`harnesses.claude.bin` / `claude_bin` / `CLAUDE_ACP_BIN`); never implicit npx | None | Account OAuth via the adapter's `--cli` login only; the free Claude App route is upstream-blocked and there is no API-key path |
 | **Cursor** (opt-in) | `cursor-native` | `cursor-agent acp`: `harnesses.cursor.bin` / `cursor_bin` / `CURSOR_AGENT_BIN`, else `~/.local/bin/cursor-agent`, else `PATH`; baseline `2026.11.05-86047df` on darwin-arm64 | Same CLI | `cursor-agent login` |
 | **Freebuff** (experimental, opt-in, deny-only) | `freebuff-native` | Worker ships inside the plugin; `harnesses.freebuff.bin` / `HMOC_FREEBUFF_BIN` selects the Bun runtime that executes it | None | Official Freebuff client sign-in; upstream currently refuses free-mode completions (`403 free_mode_cli_required`) |
@@ -29,15 +29,15 @@ Key rules for executable resolution:
 
 ## 2. Install hmoc-steward-acp
 
-Documentation for `0.6.1`. Install it through OpenCode. This command adds it globally:
+Documentation for `0.6.2`. Install it through OpenCode. This command adds it globally:
 
 ```bash
-opencode plugin add hmoc-steward-acp@0.6.1
+opencode plugin add hmoc-steward-acp@0.6.2
 ```
 
-`0.6.1` is a patch on `0.6.0` carrying scoped test and seam hardening — no new capability; `0.6.0` is a minor on `0.5.0` that adds the opt-in Cursor harness; `0.5.0` is a minor on `0.4.2`, a patch on `0.4.1`, which is a patch on `0.4.0`, which builds on `0.3.0`. `0.3.0` carries the OpenCode 2.1.2 support repair, the first-run bind fix, and the pinned Freebuff delegate. Earlier releases (`0.2.2`, and `0.2.2-test.5` on the `testing` tag) predate the 2.1.2 repair — do not use them on an OpenCode 2.1.2 host.
+`0.6.2` is the non-attested release candidate carrying four wiring-gap closures (ND-44, SET-19, T08/T09), the Devin 3000.12.32 baseline alignment, and the cursor-shared model evidence, including `usage_update` context-bound learning (ND-42) and JSON-RPC `-32603` outage attribution (ND-43) from `0.6.1`. `0.6.1` is a patch on `0.6.0` carrying scoped test and seam hardening — no new capability; `0.6.0` is a minor on `0.5.0` that adds the opt-in Cursor harness; `0.5.0` is a minor on `0.4.2`, a patch on `0.4.1`, which is a patch on `0.4.0`, which builds on `0.3.0`. `0.3.0` carries the OpenCode 2.1.2 support repair, the first-run bind fix, and the pinned Freebuff delegate. Earlier releases (`0.2.2`, and `0.2.2-test.5` on the `testing` tag) predate the 2.1.2 repair — do not use them on an OpenCode 2.1.2 host.
 
-For project-only installation, add `"hmoc-steward-acp@0.6.1"` to `plugins` in `<repo>/opencode.json` instead. Global configuration lives at `~/.config/opencode/opencode.json`. Preserve other plugins and settings. Replace the old entry when upgrading; do not add a duplicate. The npm install needs no GitHub checkout or separate package installer.
+For project-only installation, add `"hmoc-steward-acp@0.6.2"` to `plugins` in `<repo>/opencode.json` instead. Global configuration lives at `~/.config/opencode/opencode.json`. Preserve other plugins and settings. Replace the old entry when upgrading; do not add a duplicate. The npm install needs no GitHub checkout or separate package installer.
 
 ---
 

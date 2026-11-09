@@ -6,17 +6,17 @@
 
 Give your OpenCode agent a colleague. This plugin opens a real Devin or Antigravity session in your TUI when you want to watch, and hands work to one in the background when you do not.
 
-Install `hmoc-steward-acp` 0.6.1, run setup once, then work normally.
+Install `hmoc-steward-acp` 0.6.2, run setup once, then work normally.
 
 ### Install
 
-Documentation for `0.6.1`:
+Documentation for `0.6.2`:
 
 ```bash
-opencode plugin add hmoc-steward-acp@0.6.1
+opencode plugin add hmoc-steward-acp@0.6.2
 ```
 
-`0.6.1` is a patch on `0.6.0` carrying scoped test and seam hardening — no new capability; `0.6.0` is a minor on `0.5.0` that adds the opt-in Cursor harness; `0.5.0` is a minor on `0.4.2`, a patch on `0.4.1`, which is a patch on `0.4.0`, which builds on `0.3.0`. `0.3.0` carries the OpenCode 2.1.2 support repair, the first-run bind fix, and the pinned Freebuff delegate. Earlier `0.2.x` releases (including `0.2.2` and `0.2.2-test.5` on the `testing` tag) remain installable but predate the 2.1.2 repair — do not use them on an OpenCode 2.1.2 host.
+`0.6.2` is the non-attested release candidate carrying four wiring-gap closures (ND-44 permission-handler error attribution, SET-19 linked-worktree scope, T08/T09 hosted sink and composer), the Devin 3000.12.32 baseline alignment, and the cursor-shared model evidence, including `usage_update` context-bound learning (ND-42) and JSON-RPC `-32603` outage attribution (ND-43) from `0.6.1`. `0.6.1` is a patch on `0.6.0` carrying scoped test and seam hardening — no new capability; `0.6.0` is a minor on `0.5.0` that adds the opt-in Cursor harness; `0.5.0` is a minor on `0.4.2`, a patch on `0.4.1`, which is a patch on `0.4.0`, which builds on `0.3.0`. `0.3.0` carries the OpenCode 2.1.2 support repair, the first-run bind fix, and the pinned Freebuff delegate. Earlier `0.2.x` releases (including `0.2.2` and `0.2.2-test.5` on the `testing` tag) remain installable but predate the 2.1.2 repair — do not use them on an OpenCode 2.1.2 host.
 
 Project-only install: add the package to the `plugins` array of that project's `opencode.json` and skip the global command.
 
@@ -112,7 +112,7 @@ One static read: `ready`, `action-required`, or `blocked`, plus the single next 
 
 ### Requirements
 
-- **OpenCode V2** (`opencode` v2.1.4 or later within v2, below v3, on PATH). A V1 host cannot load the TUI entry, and v2.0.x or v3 is outside the supported range. The declared OpenCode peer range is unchanged in 0.5.0; the OpenTUI peer floor moved from `>=0.6.8` to `>=0.8.0`. The pinned development and test baseline is OpenCode 2.2.5. Previously observed runtime evidence stays historical: 6 native-delegation routes (Devin and Antigravity each routing to self, other harness, and executor) passed on OpenCode 2.2.1, and earlier bounded tests passed registration, session/RPC, and TUI surfaces with a 2.1.4 server — no full peer-range certification is claimed. Hosted attach, older inference ACP, sidecar rebind, and human TUI UAT remain pending; Freebuff upstream remains blocked.
+- **OpenCode V2** (`opencode` v2.1.4 or later within v2, below v3, on PATH). A V1 host cannot load the TUI entry, and v2.0.x or v3 is outside the supported range. The declared OpenCode peer range is unchanged in 0.5.0; the OpenTUI peer floor moved from `>=0.6.8` to `>=0.8.0`. The pinned development and test baseline is OpenCode 2.2.6. Previously observed runtime evidence stays historical: 6 native-delegation routes (Devin and Antigravity each routing to self, other harness, and executor) passed on OpenCode 2.2.1, and earlier bounded tests passed registration, session/RPC, and TUI surfaces with a 2.1.4 server — no full peer-range certification is claimed. Hosted attach, older inference ACP, sidecar rebind, and human TUI UAT remain pending; Freebuff upstream remains blocked.
 - **Devin:** the `devin` CLI on PATH, or `DEVIN_BIN` pointing at it, signed in with `devin auth login`.
 - **Antigravity:** the official Antigravity ACP server. The plugin can install the pinned build after you approve it, and signs in through ACP `authenticate`.
 
@@ -171,17 +171,17 @@ Referral links and donations never affect what the plugin does. Referral sign-up
 
 Cho agent OpenCode của bạn một đồng nghiệp. Plugin mở phiên Devin hoặc Antigravity thật ngay trong TUI khi bạn muốn xem, và giao việc chạy nền khi bạn không ngồi đó.
 
-Cài `hmoc-steward-acp` 0.6.1, chạy thiết lập một lần, rồi làm việc bình thường.
+Cài `hmoc-steward-acp` 0.6.2, chạy thiết lập một lần, rồi làm việc bình thường.
 
 ### Cài đặt
 
-Tài liệu cho `0.6.1`:
+Tài liệu cho `0.6.2`:
 
 ```bash
-opencode plugin add hmoc-steward-acp@0.6.1
+opencode plugin add hmoc-steward-acp@0.6.2
 ```
 
-`0.6.1` là bản vá trên `0.6.0`, củng cố test và seam ủy quyền — không có năng lực mới; `0.6.0` là bản minor trên `0.5.0`, bổ sung harness Cursor cần bật tường minh; `0.5.0` là bản minor trên `0.4.2` — một bản vá trên `0.4.1`, vốn là bản vá trên `0.4.0`, vốn được xây trên `0.3.0`. `0.3.0` mang bản sửa lỗi hỗ trợ OpenCode 2.1.2, bản sửa lỗi bind lần đầu, và delegate Freebuff đã ghim. Các bản `0.2.x` trước đó (gồm `0.2.2` và `0.2.2-test.5` trên thẻ `testing`) vẫn cài được nhưng có trước bản sửa 2.1.2 — đừng dùng chúng trên host OpenCode 2.1.2.
+`0.6.2` là bản 0.6.2 không xác thực chính thức mang bốn đóng wiring-gap (attribution lỗi ND-44, scope worktree liên kết SET-19, sink và composer hosted T08/T09), alignment baseline Devin 3000.12.32, và bằng chứng model dùng chung cursor, gồm học bound ngữ cảnh từ `usage_update` (ND-42) và attribution lỗi `-32603` (ND-43) từ `0.6.1`. `0.6.1` là bản vá trên `0.6.0`, củng cố test và seam ủy quyền — không có năng lực mới; `0.6.0` là bản minor trên `0.5.0`, bổ sung harness Cursor cần bật tường minh; `0.5.0` là bản minor trên `0.4.2` — một bản vá trên `0.4.1`, vốn là bản vá trên `0.4.0`, vốn được xây trên `0.3.0`. `0.3.0` mang bản sửa lỗi hỗ trợ OpenCode 2.1.2, bản sửa lỗi bind lần đầu, và delegate Freebuff đã ghim. Các bản `0.2.x` trước đó (gồm `0.2.2` và `0.2.2-test.5` trên thẻ `testing`) vẫn cài được nhưng có trước bản sửa 2.1.2 — đừng dùng chúng trên host OpenCode 2.1.2.
 
 Chỉ dùng trong một dự án: thêm gói vào mảng `plugins` trong `opencode.json` của dự án đó, bỏ qua lệnh cài toàn cục.
 
@@ -277,7 +277,7 @@ Một lần đọc tĩnh: `ready`, `action-required`, hoặc `blocked`, kèm đ�
 
 ### Yêu cầu
 
-- **OpenCode V2** (`opencode` từ v2.1.4 trở lên trong nhánh v2, dưới v3, trên PATH). Host V1 không nạp được entry TUI; v2.0.x và v3 nằm ngoài khoảng hỗ trợ. Khoảng peer OpenCode công bố không đổi trong 0.5.0; sàn peer OpenTUI nâng từ `>=0.6.8` lên `>=0.8.0`. Baseline phát triển và kiểm thử được ghim là OpenCode 2.2.5. Bằng chứng runtime đã quan sát trước đây giữ nguyên là lịch sử: 6 route ủy quyền gốc (Devin và Antigravity giao việc cho self, harness đối ứng, và executor) đã đạt trên OpenCode 2.2.1, và các thử nghiệm cô lập trước đó cũng vượt qua đăng ký plugin, session/RPC và TUI với server 2.1.4 — không có tuyên bố chứng nhận toàn dải peer. Hosted attach, inference ACP cũ, rebind sidecar và UAT TUI từ chủ sở hữu vẫn đang chờ; Freebuff phía thượng nguồn tiếp tục bị chặn.
+- **OpenCode V2** (`opencode` từ v2.1.4 trở lên trong nhánh v2, dưới v3, trên PATH). Host V1 không nạp được entry TUI; v2.0.x và v3 nằm ngoài khoảng hỗ trợ. Khoảng peer OpenCode công bố không đổi trong 0.5.0; sàn peer OpenTUI nâng từ `>=0.6.8` lên `>=0.8.0`. Baseline phát triển và kiểm thử được ghim là OpenCode 2.2.6. Bằng chứng runtime đã quan sát trước đây giữ nguyên là lịch sử: 6 route ủy quyền gốc (Devin và Antigravity giao việc cho self, harness đối ứng, và executor) đã đạt trên OpenCode 2.2.1, và các thử nghiệm cô lập trước đó cũng vượt qua đăng ký plugin, session/RPC và TUI với server 2.1.4 — không có tuyên bố chứng nhận toàn dải peer. Hosted attach, inference ACP cũ, rebind sidecar và UAT TUI từ chủ sở hữu vẫn đang chờ; Freebuff phía thượng nguồn tiếp tục bị chặn.
 - **Devin:** CLI `devin` trên PATH, hoặc `DEVIN_BIN` trỏ tới nó, đã đăng nhập bằng `devin auth login`.
 - **Antigravity:** ACP server chính thức của Antigravity. Plugin có thể cài bản đã ghim sau khi bạn duyệt, và đăng nhập qua ACP `authenticate`.
 

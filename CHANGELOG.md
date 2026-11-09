@@ -1,5 +1,73 @@
 # Changelog
 
+## 0.6.2 — 2026-11-08
+
+Candidate patch release. Prepared, not published, not UAT-accepted. No
+new capability over `0.6.1`: the payload is the ND-P01 defect-hardening
+frontier across native delegation, the S2 bridge, permission
+diagnosability and the settings seam, plus the aligned development
+baseline — OpenCode `2.2.6` (`@opencode/plugin` `2.2.6`), Devin CLI
+`3000.12.32`, `antigravity-acp` registry pin `1.4.3` (the
+`agy_acp_server.par` artifact, distinct from the `agy` CLI companion
+`1.5.3`).
+
+### Fixed
+
+- Withheld `kind:"compaction"` requests and degenerate fold windows
+  fence loudly instead of finishing a silent `auxiliary` result; the
+  visible native window folds into a durable compaction transcript
+  (ND-36, ND-38).
+- Native delegation deliveries carry the canonical `<native-delivery>`
+  envelope on every delivered plan (ND-37).
+- A never-established failed event feed re-opens after a bounded
+  cooldown instead of latching dead (ND-39).
+- Permission diagnostics carry named leg, identity and verdict reasons
+  (ND-40 + the consolidated permission-frontier repair). Infrastructure
+  outages now answer JSON-RPC `-32603` with the named reason (ND-43);
+  vendor rendering of the error remains unobserved.
+- Aborted turns whose text opened a `hivemind-bridge` fence journal one
+  bounded `bridge-dropped` row; dead turns keep zero side effects
+  (ND-41).
+- A fence-shaped `unparsed` emit earns exactly one visible `[bridge]`
+  note naming the structural reason and remedy; `no-directive`, grant
+  refusals and the nonce anti-oracle stay invisible (NBR-13).
+- `usage_update.size` learns a scoped `contextLimit` evidence row for
+  the seed guard, deduped per `(model, tokens)` (ND-42).
+- Settings RPC output passes the host `RpcOutput` JSON codec; health
+  reports the effective policy the admission actually uses (SET-17,
+  SET-18).
+
+### Known limitations (candidate ledger)
+
+- The continuity residual (U4) — fresh-trajectory seed recall plus
+  current-instruction delivery on a new trajectory — remains an open
+  plan unit. The public-seam evidence redo (U2) and the spec/status
+  reconciliation (U3) are closed:
+  `.audit/2026-11-08-production-062/u2-public-seam-evidence.md` and
+  `u3-spec-status-reconciliation.md`.
+- Named seam residuals stay fail-closed, never silently skipped: a
+  durable transcript row carrying a binary attachment pauses seeding
+  with the named "transcript could not be verified" reason, and a
+  restamp whose durable listing lost a previously stamped id cannot
+  recover that id. Both are recorded product decisions, not claimed
+  fixes.
+- Live acceptance legs are partial: final-candidate Devin (8/8 bounded
+  file/Git/worktree operations) and Antigravity (writes, Git,
+  worktree) probes passed, with Antigravity's outside-workspace native
+  reads refused by its own policy even though writes succeeded. The
+  hosted mounts, Cursor hosted mount and child journey, the S2 bridge
+  re-drive and the permission-diagnosability probe are UNVERIFIED.
+- Neither final-candidate probe surfaced a permission ask, so the
+  ND-43 `-32603` outage-attribution path is implemented and
+  unit-verified but not observed in vendor rendering.
+- Claude cells stay `BLOCKED-U` until owner sign-in (`-32000
+  Authentication required` observed on the live child).
+- Freebuff live file-tool checks are authentication-blocked: its catalog
+  request returned HTTP 401. No live paid admission or purchase ran.
+- The REQ-REL-20 candidate-bound runtime envelope and owner TUI UAT
+  remain pending; `release/*.json` keep `state: "pending"`. No
+  production-readiness claim.
+
 ## 0.6.1 — 2026-11-06
 
 Patch release. No new capability over `0.6.0`: the payload is scoped
